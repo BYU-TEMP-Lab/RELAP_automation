@@ -1,0 +1,20 @@
+*.swp
+.automation/
+
+# Environments
+.venv/
+env/
+venv/
+
+# Build and Distribution
+build/
+dist/
+*.egg-info/
+
+# Byte-compiled / optimized files
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# logs
+logs/

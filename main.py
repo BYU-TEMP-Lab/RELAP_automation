@@ -89,7 +89,7 @@ def main(CONFIG_PATH, TEMPLATE_PATH, EXCEL_PATH, sheet_name, note):
 
     # Generate a unique output filename based on the note or template name and current timestamp
     if note:
-        sanitized_note = "".join(c if c.isalnum() or c in (' ', '_') else '_' for c in note).strip()
+        sanitized_note = "".join(c if c.isalnum() or c in ('_') else '_' for c in note).strip()
         output_filename = f"{sanitized_note}_{current_time.strftime("%Y-%m-%d_%H_%M_%S")}.i"
     else:
         output_filename = f"{TEMPLATE_PATH.stem}_{current_time.strftime("%Y-%m-%d_%H_%M_%S")}.i"

@@ -7,6 +7,7 @@ env/
 venv/
 
 # Build and Distribution
+runs/
 build/
 dist/
 *.egg-info/

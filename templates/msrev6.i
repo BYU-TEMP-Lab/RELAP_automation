@@ -1,0 +1,2591 @@
+* MSRE Benchmark
+= MSRE
+*******************************************************************************
+* MSRE Benchmarking Model                                                     *
+* Author: Gregory Arps                                                        *
+* Date Created: 9/19/26                                                        *
+* Version: B                                                                  *
+*                                                                             *
+*                                                                             *
+*                                                                             *
+*                                                                             *
+*                                                                             *
+*                                                                             *
+*******************************************************************************
+*
+*******************************************************************************
+*                                                                             *
+*                       Miscellaneous Control Cards                           *
+*                                                                             *
+*******************************************************************************
+* FLiBe is used for both coolant loops
+*
+*      Type     Option
+100    new      transnt
+*      Inp-Chk/Run
+101    run
+*      Input-Units     Output-Units
+102    si              si
+*      Noncondensible
+110    helium
+*      RefVol      Elevation    Fluid    Name        Noncondensible
+120    172010000   0.0          ms1      'primary'   0
+121    304010000   2.0          ms1      'second'    1
+*
+*******************************************************************************
+*                                                                             *
+*                           Time Step Control Cards                           *
+*                                                                             *
+*******************************************************************************
+*
+*      TimeStart
+200    0.0
+*      TimeEnd   MinStep  MaxStep  Ssdtt  MinorEditFreq  MajEditFreq  ResrtFreq
+201    50.0      1.0e-7   1.0e-3   00000  250            1000         1000
+202    2000.0    1.0e-7   1.0e-1   00000  10             50           50
+*
+*******************************************************************************
+*                                                                             *
+*                                    Trips                                    *
+*                                                                             *
+*******************************************************************************
+* 401 scrams the reactor
+* 402 ends the transient before thermal property errors occur
+*      VarCode     Parameter  Rel  VarCode  Parameter  AddConst  Latch  TimeOfB
+401    tempf       131200000  ge   null     0          1200.0    l      -1.0
+402    tempf       131200000  ge   null     0          1250.0    l      -1.0
+*      End Problem
+600    402
+*
+*******************************************************************************
+*                                                                             *
+*                 Core and Adjacent Hydrodynamic Components                   *
+*                                                                             *
+*******************************************************************************
+* Each pipe in the core (131-135) represents a concentric radial region of
+* the core fluid volume. The sub volumes within each pipe represent the axial
+* volumes
+*
+****************************************
+*       Core Lower Plenum - 102        *
+****************************************
+*          Name      Type
+1020000    corepln1  snglvol
+*          Area        Length       Volume
+1020101    0.571       0.607        0.0
+*          AzimAng   InclAng   ElevationChange
+1020102    0.0       0.0       0.0
+*          Roughness  HydraulicDiam  Tlpvbfe
+1020103    0.0        0.0            0000000
+*          Ebt       Pres       Temp     Qual
+1020200    003       2.0e5      923.15   0.0
+*
+*
+****************************************
+*       Core Upper Plenum - 172        *
+****************************************
+*          Name      Type
+1720000    corepln2  snglvol
+*          Area        Length       Volume
+1720101    1.546       0.2077       0.0
+*          AzimAng   InclAng   ElevationChange
+1720102    0.0       90.0      0.2077
+*          Roughness  HydraulicDiam  Tlpvbfe
+1720103    0.0        0.0            0000000
+*          Ebt       Pres       Temp     Qual
+1720200    003       1.74e5     973.15   0.0
+*
+*
+****************************************
+*              Pipe - 131              *
+****************************************
+* Core fluid volume
+*
+*          Name           Type
+1310000    core1          pipe
+*          NumOfVolumes
+1310001    20
+*          Area                      VolNum
+1310101    1.31111e-2                20
+*          JunArea                   JunNum
+1310201    1.31111e-2                19
+*          Length                    VolNum
+1310301    0.07875                   20
+*          Volume                    VolNum
+1310401    0.0                       20
+*          AzimAng                   VolNum
+1310501    0.0                       20
+*          InclAng                   VolNum
+1310601    90.0                      20
+*          ElevationChange           VolNum
+1310701    0.07875                   20
+*          Roughness  HydraulicDiam  VolNum
+1310801    5.0e-6     0.01585        20
+*          Af         Ar             JunNum
+1310901    0.0        0.0            19
+*          tlpvbfe                   VolNum
+1311001    0000000                   20
+*          efvcahs                   JunNum
+1311101    0000000                   19
+*          Ebt   Initial-Conditions             VolNum
+1311201    003   2.0e5  923.15  0.0   0.0  0.0  10
+1311202    003   1.9e5  923.15  0.0   0.0  0.0  20
+*          Vel/Mfr
+1311300    1
+*          Liquid  Vapor  Interface  JunNum
+1311301    0.0     0.0    0.0        19
+*          JunHydDia  Flooding  c     Slope  JunNum
+1311401    0.0        0.0       1.0   1.0    19
+*
+*
+****************************************
+*              Pipe - 132              *
+****************************************
+* Core fluid volume
+*
+*          Name           Type
+1320000    core2          pipe
+*          NumOfVolumes
+1320001    20
+*          Area                      VolNum
+1320101    3.93334e-2                20
+*          JunArea                   JunNum
+1320201    3.93334e-2                19
+*          Length                    VolNum
+1320301    0.07875                   20
+*          Volume                    VolNum
+1320401    0.0                       20
+*          AzimAng                   VolNum
+1320501    0.0                       20
+*          InclAng                   VolNum
+1320601    90.0                      20
+*          ElevationChange           VolNum
+1320701    0.07875                   20
+*          Roughness  HydraulicDiam  VolNum
+1320801    5.0e-6     0.01585        20
+*          Af         Ar             JunNum
+1320901    0.0        0.0            19
+*          tlpvbfe                   VolNum
+1321001    0000000                   20
+*          efvcahs                   JunNum
+1321101    0000000                   19
+*          Ebt   Initial-Conditions             VolNum
+1321201    003   2.0e5  923.15  0.0   0.0  0.0  10
+1321202    003   1.9e5  923.15  0.0   0.0  0.0  20
+*          Vel/Mfr
+1321300    1
+*          Liquid  Vapor  Interface  JunNum
+1321301    0.0     0.0    0.0        19
+*          JunHydDia  Flooding  c     Slope  JunNum
+1321401    0.0        0.0       1.0   1.0    19
+*
+*
+****************************************
+*              Pipe - 133              *
+****************************************
+* Core fluid volume
+*
+*          Name           Type
+1330000    core3          pipe
+*          NumOfVolumes
+1330001    20
+*          Area                      VolNum
+1330101    6.55557e-2                20
+*          JunArea                   JunNum
+1330201    6.55557e-2                19
+*          Length                    VolNum
+1330301    0.07875                   20
+*          Volume                    VolNum
+1330401    0.0                       20
+*          AzimAng                   VolNum
+1330501    0.0                       20
+*          InclAng                   VolNum
+1330601    90.0                      20
+*          ElevationChange           VolNum
+1330701    0.07875                   20
+*          Roughness  HydraulicDiam  VolNum
+1330801    5.0e-6     0.01585        20
+*          Af         Ar             JunNum
+1330901    0.0        0.0            19
+*          tlpvbfe                   VolNum
+1331001    0000000                   20
+*          efvcahs                   JunNum
+1331101    0000000                   19
+*          Ebt   Initial-Conditions             VolNum
+1331201    003   2.0e5  923.15  0.0   0.0  0.0  10
+1331202    003   1.9e5  923.15  0.0   0.0  0.0  20
+*          Vel/Mfr
+1331300    1
+*          Liquid  Vapor  Interface  JunNum
+1331301    0.0     0.0    0.0        19
+*          JunHydDia  Flooding  c     Slope  JunNum
+1331401    0.0        0.0       1.0   1.0    19
+*
+*
+****************************************
+*              Pipe - 134              *
+****************************************
+* Core fluid volume
+*
+*          Name           Type
+1340000    core4          pipe
+*          NumOfVolumes
+1340001    20
+*          Area                      VolNum
+1340101    9.17780e-2                20
+*          JunArea                   JunNum
+1340201    9.17780e-2                19
+*          Length                    VolNum
+1340301    0.07875                   20
+*          Volume                    VolNum
+1340401    0.0                       20
+*          AzimAng                   VolNum
+1340501    0.0                       20
+*          InclAng                   VolNum
+1340601    90.0                      20
+*          ElevationChange           VolNum
+1340701    0.07875                   20
+*          Roughness  HydraulicDiam  VolNum
+1340801    5.0e-6     0.01585        20
+*          Af         Ar             JunNum
+1340901    0.0        0.0            19
+*          tlpvbfe                   VolNum
+1341001    0000000                   20
+*          efvcahs                   JunNum
+1341101    0000000                   19
+*          Ebt   Initial-Conditions             VolNum
+1341201    003   2.0e5  923.15  0.0   0.0  0.0  10
+1341202    003   1.9e5  923.15  0.0   0.0  0.0  20
+*          Vel/Mfr
+1341300    1
+*          Liquid  Vapor  Interface  JunNum
+1341301    0.0     0.0    0.0        19
+*          JunHydDia  Flooding  c     Slope  JunNum
+1341401    0.0        0.0       1.0   1.0    19
+*
+*
+****************************************
+*              Pipe - 135              *
+****************************************
+* Core fluid volume
+*
+*          Name           Type
+1350000    core5          pipe
+*          NumOfVolumes
+1350001    20
+*          Area                      VolNum
+1350101    1.18000e-1                20
+*          JunArea                   JunNum
+1350201    1.18000e-1                19
+*          Length                    VolNum
+1350301    0.07875                   20
+*          Volume                    VolNum
+1350401    0.0                       20
+*          AzimAng                   VolNum
+1350501    0.0                       20
+*          InclAng                   VolNum
+1350601    90.0                      20
+*          ElevationChange           VolNum
+1350701    0.07875                   20
+*          Roughness  HydraulicDiam  VolNum
+1350801    5.0e-6     0.01585        20
+*          Af         Ar             JunNum
+1350901    0.0        0.0            19
+*          tlpvbfe                   VolNum
+1351001    0000000                   20
+*          efvcahs                   JunNum
+1351101    0000000                   19
+*          Ebt   Initial-Conditions             VolNum
+1351201    003   2.0e5  923.15  0.0   0.0  0.0  10
+1351202    003   1.9e5  923.15  0.0   0.0  0.0  20
+*          Vel/Mfr
+1351300    1
+*          Liquid  Vapor  Interface  JunNum
+1351301    0.0     0.0    0.0        19
+*          JunHydDia  Flooding  c     Slope  JunNum
+1351401    0.0        0.0       1.0   1.0    19
+*
+*
+* ****************************************
+* *              Pipe - 149              *
+* ****************************************
+* * Core bypass volume
+* *
+* *          Name           Type
+* 1490000    bypass         pipe
+* *          NumOfVolumes
+* 1490001    20
+* *          Area                      VolNum
+* 1490101    8.33238e-3                20
+* *          JunArea                   JunNum
+* 1490201    8.33238e-3                19
+* *          Length                    VolNum
+* 1490301    8.001e-2                  20
+* *          Volume                    VolNum
+* 1490401    0.0                       20
+* *          AzimAng                   VolNum
+* 1490501    0.0                       20
+* *          InclAng                   VolNum
+* 1490601    90.0                      20
+* *          ElevationChange           VolNum
+* 1490701    8.001e-2                  20
+* *          Roughness  HydraulicDiam  VolNum
+* 1490801    5.0e-6     0.01585        20
+* *          Af         Ar             JunNum
+* 1490901    0.0        0.0            19
+* *          tlpvbfe                   VolNum
+* 1491001    0000000                   20
+* *          efvcahs                   JunNum
+* 1491101    0000000                   19
+* *          Ebt   Initial-Conditions             VolNum
+* 1491201    003   1.0e5  923.15  0.0   0.0  0.0  20
+* *          Vel/Mfr
+* 1491300    1
+* *          Liquid  Vapor  Interface  JunNum
+* 1491301    0.0     0.0    0.0        19
+* *          JunHydDia  Flooding  c     Slope  JunNum
+* 1491401    0.0        0.0       1.0   1.0    19
+*
+*
+****************************************
+*       Multiple Junction - 110        *
+****************************************
+* core inlet junctions
+*
+*          Name        Type
+1100000    coreinj     mtpljun
+*          NumJun      InitialCond
+1100001    5           1
+*          From         To          Area
+1100011    102010002    131010001   1.36329e-2
+*          Af     Ar     efvcahs    W7        W8
+1100012    0.5    0.5    0000000    1.0       1.0
+*          W9     IncrmntFrom   IncrmntTo  W12   NumJun
+1100013    1.0    000000000     001000000  0     5
+*          Liquid     Vapor   NumJun
+1101011    0.0        0.0     5
+*
+*
+****************************************
+*       Multiple Junction - 150        *
+****************************************
+* core outlet junctions
+*
+*          Name        Type
+1500000    coreoutj    mtpljun
+*          NumJun      InitialCond
+1500001    5           1
+*          From         To          Area
+1500011    131200002    172010001   1.36329e-2
+*          Af     Ar     efvcahs    W7        W8
+1500012    0.5    0.5    0000000    1.0       1.0
+*          W9     IncrmntFrom   IncrmntTo  W12   NumJun
+1500013    1.0    001000000     000000000  0     5
+*          Liquid     Vapor    NumJun
+1501011    0.0        0.0      5
+*
+*
+****************************************
+*       Jacket Flow Dist - 190         *
+****************************************
+* Flow distributor before jacket
+* Assuming that flow takes a radial approach 
+* around half of the ring (on average) before
+* entering the jacket, for purposes of residence
+* time
+*          Name      Type
+1900000    flowdist  snglvol
+*          Area        Length       Volume
+1900101    3.3e-2      2.5          0.0
+*          AzimAng   InclAng   ElevationChange
+1900102    0.0       0.0       0
+*          Roughness  HydraulicDiam  Tlpvbfe
+1900103    0.0        0.12526        0000000
+*          Ebt       Pres       Temp     Qual
+1900200    003       1.8e5     923.15   0.0
+*
+*
+****************************************
+*        Single Junction - 191         *
+****************************************
+* jacket inlet junction
+*
+*          Name        Type
+1910000    jcktjun1    sngljun
+*          From         To          Area
+1910101    190010002    192010001   0.115529
+*          Af     Ar     efvcahs 
+1910102    0.0    0.0    0000000
+*          Vel/Mfr  Liquid     Vapor  Interface
+1910201    1        0.0        0.0    0.0
+*
+*
+****************************************
+*              Pipe - 192              *
+****************************************
+* Core annular jacket
+*
+*          Name           Type
+1920000    jacket         pipe
+*          NumOfVolumes
+1920001    20
+*          Area                      VolNum
+1920101    0.115529                  20
+*          JunArea                   JunNum
+1920201    0.115529                  19
+*          Length                    VolNum
+1920301    0.08635                   20
+*          Volume                    VolNum
+1920401    0.0                       20
+*          AzimAng                   VolNum
+1920501    0.0                       20
+*          InclAng                   VolNum
+1920601    -90.0                     20
+*          ElevationChange           VolNum
+1920701    -0.08635                  20
+*          Roughness  HydraulicDiam  VolNum
+1920801    5.0e-6     0.0508         20
+*          Af         Ar             JunNum
+1920901    0.0        0.0            19
+*          tlpvbfe                   VolNum
+1921001    0000000                   20
+*          efvcahs                   JunNum
+1921101    0000000                   19
+*          Ebt   Initial-Conditions             VolNum
+1921201    003   1.9e5  923.15  0.0   0.0  0.0  10
+1921202    003   2.0e5  923.15  0.0   0.0  0.0  20
+*          Vel/Mfr
+1921300    1
+*          Liquid  Vapor  Interface  JunNum
+1921301    0.0     0.0    0.0        19
+*          JunHydDia  Flooding  c     Slope  JunNum
+1921401    0.0        0.0       1.0   1.0    19
+*
+*
+****************************************
+*        Single Junction - 193         *
+****************************************
+* jacket junction outlet
+*
+*          Name        Type
+1930000    jcktjun2    sngljun
+*          From         To          Area
+1930101    192010000    102000000   0.115529
+*          Af     Ar     efvcahs 
+1930102    0.0    0.0    0000000
+*          Vel/Mfr  Liquid     Vapor  Interface
+1930201    1        0.0        0.0    0.0
+*
+*
+****************************************
+*        Single Junction - 173         *
+****************************************
+* junction connecting upper plenum
+* to outlet riser
+*
+*          Name        Type
+1730000    coreoutj    sngljun
+*          From         To          Area
+1730101    172010000    174000000   0.0514718
+*          Af     Ar     efvcahs 
+1730102    0.0    0.0    0000000
+*          Vel/Mfr  Liquid     Vapor  Interface
+1730201    1        0.0        0.0    0.0
+*
+*
+****************************************
+*              Pipe - 174              *
+****************************************
+* core outlet riser volumes
+*
+*          Name           Type
+1740000    outriser       pipe
+*          NumOfVolumes
+1740001    4
+*          Area                      VolNum
+1740101    0.0514718                 4
+*          JunArea                   JunNum
+1740201    0.0514718                 3
+*          Length                    VolNum
+1740301    0.115                     4
+*          Volume                    VolNum
+1740401    0.0                       4
+*          AzimAng                   VolNum
+1740501    0.0                       4
+*          InclAng                   VolNum
+1740601    90.0                      4
+*          ElevationChange           VolNum
+1740701    2.06e-2                   4
+*          Roughness  HydraulicDiam  VolNum
+1740801    5.0e-6     0.0            4
+*          Af         Ar             JunNum
+1740901    0.0        0.0            3 
+*          tlpvbfe                   VolNum
+1741001    0000000                   4
+*          efvcahs                   JunNum
+1741101    0000000                   3
+*          Ebt   Initial-Conditions             VolNum
+1741201    003   1.70e5  923.15  0.0   0.0  0.0  4
+*          Vel/Mfr
+1741300    1
+*          Liquid  Vapor  Interface  JunNum
+1741301    0.0     0.0    0.0        3
+*          JunHydDia  Flooding  c     Slope  JunNum
+1741401    0.0        0.0       1.0   1.0    3
+*
+*
+*******************************************************************************
+*                                                                             *
+*                    Primary Loop Hydrodynamic Components                     *
+*                                                                             *
+*******************************************************************************
+* Each pipe in the core (131-135) represents a concentric radial region of
+* the core fluid volume. The sub volumes within each pipe represent the axial
+* volumes
+*
+****************************************
+*        Single Junction - 201         *
+****************************************
+* core outlet junction
+*
+*          Name        Type
+2010000    coutjun     sngljun
+*          From         To          Area
+2010101    174010000    202000000   1.2911e-2
+*          Af     Ar     efvcahs 
+2010102    0.3    0.3    0000000
+*          Vel/Mfr  Liquid     Vapor  Interface
+2010201    1        0.0        0.0    0.0
+*
+*
+****************************************
+*              Pipe - 202              *
+****************************************
+* loop segment 1
+*
+*          Name           Type
+2020000    lseg1          pipe
+*          NumOfVolumes
+2020001    6
+*          Area                      VolNum
+2020101    1.2911e-2                 6
+*          JunArea                   JunNum
+2020201    1.2911e-2                 5
+*          Length                    VolNum
+2020301    0.116333                  6
+*          Volume                    VolNum
+2020401    0.0                       6
+*          AzimAng                   VolNum
+2020501    0.0                       6
+*          InclAng                   VolNum
+2020601    0.0                       6
+*          ElevationChange           VolNum
+2020701    0.0                       6
+*          Roughness  HydraulicDiam  VolNum
+2020801    5.0e-6     0.0            6
+*          Af         Ar             JunNum
+2020901    0.0        0.0            5
+*          tlpvbfe                   VolNum
+2021001    0000000                   6
+*          efvcahs                   JunNum
+2021101    0000000                   5
+*          Ebt   Initial-Conditions             VolNum
+2021201    003   1.7e5  923.15  0.0   0.0  0.0  6
+*          Vel/Mfr
+2021300    1
+*          Liquid  Vapor  Interface  JunNum
+2021301    0.0     0.0    0.0        5
+*          JunHydDia  Flooding  c     Slope  JunNum
+2021401    0.0        0.0       1.0   1.0    5
+*
+*
+****************************************
+*        Single Junction - 203         *
+****************************************
+* loop junction 1
+*
+*          Name        Type
+2030000    loopjun1    sngljun
+*          From         To          Area
+2030101    202010000    204000000   1.2911e-2
+*          Af     Ar     efvcahs 
+2030102    0.0    0.0    0000000
+*          Vel/Mfr  Liquid     Vapor  Interface
+2030201    1        0.0        0.0    0.0
+*
+*
+****************************************
+*              Pipe - 204              *
+****************************************
+* loop segment 2
+*
+*          Name           Type
+2040000    lseg2          pipe
+*          NumOfVolumes
+2040001    14
+*          Area                      VolNum
+2040101    1.2911e-2                 14
+*          JunArea                   JunNum
+2040201    1.2911e-2                 13
+*          Length                    VolNum
+2040301    0.114370                  14
+*          Volume                    VolNum
+2040401    0.0                       14
+*          AzimAng                   VolNum
+2040501    24.9930609                14
+*          InclAng                   VolNum
+2040601    3.83169                   14
+*          ElevationChange           VolNum
+2040701    7.642857e-3               14
+*          Roughness  HydraulicDiam  VolNum
+2040801    5.0e-6     0.0            14
+*          Af         Ar             JunNum
+2040901    0.0        0.0            13  
+*          tlpvbfe                   VolNum
+2041001    0000000                   14
+*          efvcahs                   JunNum
+2041101    0000000                   13
+*          Ebt   Initial-Conditions             VolNum
+2041201    003   1.7e5  923.15  0.0   0.0  0.0  14
+*          Vel/Mfr
+2041300    1
+*          Liquid  Vapor  Interface  JunNum
+2041301    0.0     0.0    0.0        13
+*          JunHydDia  Flooding  c     Slope  JunNum
+2041401    0.0        0.0       1.0   1.0    13
+*
+*
+****************************************
+*        Single Junction - 205         *
+****************************************
+* loop junction 2
+*
+*          Name        Type
+2050000    loopjun2     sngljun
+*          From         To          Area
+2050101    204010000    206000000   1.2911e-2
+*          Af     Ar     efvcahs 
+2050102    0.0    0.0    0000000
+*          Vel/Mfr  Liquid     Vapor  Interface
+2050201    1        0.0        0.0    0.0
+*
+*
+****************************************
+*              Pipe - 206              *
+****************************************
+* loop segment 3
+*
+*          Name           Type
+2060000    lseg3          pipe
+*          NumOfVolumes
+2060001    5
+*          Area                      VolNum
+2060101    1.2911e-2                 5
+*          JunArea                   JunNum
+2060201    1.2911e-2                 4
+*          Length                    VolNum
+2060301    0.1179322                 5
+*          Volume                    VolNum
+2060401    0.0                       5
+*          AzimAng                   VolNum
+2060501    60.011826                 5
+*          InclAng                   VolNum
+2060601    7.797433                  5
+*          ElevationChange           VolNum
+2060701    0.016                     5
+*          Roughness  HydraulicDiam  VolNum
+2060801    5.0e-6     0.0            5
+*          Af         Ar             JunNum
+2060901    0.0        0.0            4  
+*          tlpvbfe                   VolNum
+2061001    0000000                   5
+*          efvcahs                   JunNum
+2061101    0000000                   4
+*          Ebt   Initial-Conditions             VolNum
+2061201    003   1.7e5  923.15  0.0   0.0  0.0  5
+*          Vel/Mfr
+2061300    1
+*          Liquid  Vapor  Interface  JunNum
+2061301    0.0     0.0    0.0        4
+*          JunHydDia  Flooding  c     Slope  JunNum
+2061401    0.0        0.0       1.0   1.0    4
+*
+*
+****************************************
+*        Single Junction - 207         *
+****************************************
+* loop junction 3
+*
+*          Name        Type
+2070000    loopjun3    sngljun
+*          From         To          Area
+2070101    206010000    208000000   1.2911e-2
+*          Af     Ar     efvcahs 
+2070102    0.0    0.0    0000000
+*          Vel/Mfr  Liquid     Vapor  Interface
+2070201    1        0.0        0.0    0.0
+*
+*
+****************************************
+*              Pipe - 208              *
+****************************************
+* loop segment 4
+*
+*          Name           Type
+2080000    lseg4          pipe
+*          NumOfVolumes
+2080001    9
+*          Area                      VolNum
+2080101    0.021408391               9
+*          JunArea                   JunNum
+2080201    0.021408391               8
+*          Length                    VolNum
+2080301    0.11566667                9
+*          Volume                    VolNum
+2080401    0.0                       9
+*          AzimAng                   VolNum
+2080501    0.0                       9
+*          InclAng                   VolNum
+2080601    90.0                      9
+*          ElevationChange           VolNum
+2080701    0.11566667                9
+*          Roughness  HydraulicDiam  VolNum
+2080801    5.0e-6     0.0            9
+*          Af         Ar             JunNum
+2080901    0.0        0.0            8  
+*          tlpvbfe                   VolNum
+2081001    0000000                   9
+*          efvcahs                   JunNum
+2081101    0000000                   8
+*          Ebt   Initial-Conditions             VolNum
+2081201    003   1.7e5  923.15  0.0   0.0  0.0  4
+2081202    003   1.6e5  923.15  0.0   0.0  0.0  9
+*          Vel/Mfr
+2081300    1
+*          Liquid  Vapor  Interface  JunNum
+2081301    0.0     0.0    0.0        8
+*          JunHydDia  Flooding  c     Slope  JunNum
+2081401    0.0        0.0       1.0   1.0    8
+*
+*
+****************************************
+*        Single Junction - 209         *
+****************************************
+* loop junction 4
+*
+*          Name        Type
+2090000    loopjun4    sngljun
+*          From         To          Area
+2090101    208010000    210000000   0.021408391
+*          Af     Ar     efvcahs 
+2090102    0.0    0.0    0000000
+*          Vel/Mfr  Liquid     Vapor  Interface
+2090201    1        0.0        0.0    0.0
+*
+*
+****************************************
+*              Pipe - 210              *
+****************************************
+* pump bowl
+*
+*          Name           Type
+2100000    pumpbowl       pipe
+*          NumOfVolumes
+2100001    18
+*          Area                      VolNum
+2100101    7.2965877e-2              18
+*          JunArea                   JunNum
+2100201    7.2965877e-2              17
+*          Length                    VolNum
+2100301    0.1035                    18
+*          Volume                    VolNum
+2100401    0.0                       18
+*          AzimAng                   VolNum
+2100501    0.0                       18
+*          InclAng                   VolNum
+2100601    90.0                      18
+*          ElevationChange           VolNum
+2100701    0.1035                    18
+*          Roughness  HydraulicDiam  VolNum
+2100801    5.0e-6     0.0            18
+*          Af         Ar             JunNum
+2100901    0.0        0.0            17  
+*          tlpvbfe                   VolNum
+2101001    0000000                   18
+*          efvcahs                   JunNum
+2101101    0000000                   17
+*          Ebt   Initial-Conditions             VolNum
+2101201    004   1.358e5  923.15  0.0   0.0  0.0  10
+2101202    004   1.358e5  923.15  0.999 0.0  0.0  11
+2101203    004   1.358e5  923.15  1.0   0.0  0.0  18
+* 2101201    003   1.358e5  923.15  0.0   0.0  0.0  18
+*          Vel/Mfr
+2101300    1
+*          Liquid  Vapor  Interface  JunNum
+2101301    0.0     0.0    0.0        17
+*          JunHydDia  Flooding  c     Slope  JunNum
+2101401    0.0        0.0       1.0   1.0    17
+*
+*
+****************************************
+*        Single Junction - 211         *
+****************************************
+* loop junction 5
+*
+*          Name        Type
+2110000    loopjun5    sngljun
+*          From         To          Area
+2110101    210030004    212010001   1.2911e-2
+*          Af     Ar     efvcahs 
+2110102    0.0    0.0    0000000
+*          Vel/Mfr  Liquid     Vapor  Interface
+2110201    1        0.0        0.0    0.0
+*
+*
+****************************************
+*              Pipe - 212              *
+****************************************
+* pump volume
+*
+*          Name           Type
+2120000    pumpvol        pipe
+*          NumOfVolumes
+2120001    3
+*          Area                      VolNum
+2120101    1.2911e-2                 3
+*          JunArea                   JunNum
+2120201    1.2911e-2                 2
+*          Length                    VolNum
+2120301    0.1                       3
+*          Volume                    VolNum
+2120401    0.0                       3
+*          AzimAng                   VolNum
+2120501    0.0                       3
+*          InclAng                   VolNum
+2120601    0.0                       3
+*          ElevationChange           VolNum
+2120701    0.0                       3
+*          Roughness  HydraulicDiam  VolNum
+2120801    5.0e-6     0.0            3
+*          Af         Ar             JunNum
+2120901    0.0        0.0            2 
+*          tlpvbfe                   VolNum
+2121001    0000000                   3
+*          efvcahs                   JunNum
+2121101    0000000                   2
+*          Ebt   Initial-Conditions             VolNum
+2121201    003   1.358e5  923.15  0.0   0.0  0.0  3
+*          Vel/Mfr
+2121300    1
+*          Liquid  Vapor  Interface  JunNum
+2121301    0.0     0.0    0.0        2
+*          JunHydDia  Flooding  c     Slope  JunNum
+2121401    0.0        0.0       1.0   1.0    2
+*
+*
+* ****************************************
+* *    Time Dependent Junction - 213     *
+* ****************************************
+* * simulated pump (zero volume)
+* * using "new" connection format for side conx
+* *
+* *          Name       Type
+* 2130000    pump       tmdpjun
+* *          From         To          Area       efvcahs
+* 2130101    212010000    214000000   1.2911e-2  0000000
+* *          Vel/Mfr   TripNum   SearchVar
+* 2130200    1         0         time
+* *          SearchVar   Liquid    Vapor        Interface
+* 2130201    0.0         0.0       0.0          0.0
+* 2130202    10.0        0.0       0.0          0.0
+* 2130211    1000.0      153.148   0.0          0.0
+*
+*
+****************************************
+*        Single Junction - 211         *
+****************************************
+* loop junction 5
+*
+*          Name        Type
+2130000    dummy       sngljun
+*          From         To          Area
+2130101    212010000    214000000   1.2911e-2
+*          Af     Ar     efvcahs 
+2130102    0.0    0.0    0000000
+*          Vel/Mfr  Liquid     Vapor  Interface
+2130201    1        0.0        0.0    0.0
+*
+*
+****************************************
+*              Pipe - 214              *
+****************************************
+* loop segment 5
+*
+*          Name           Type
+2140000    lseg5          pipe
+*          NumOfVolumes
+2140001    15
+*          Area                      VolNum
+2140101    1.2911e-2                 15
+*          JunArea                   JunNum
+2140201    1.2911e-2                 14
+*          Length                    VolNum
+2140301    0.10726667                15
+*          Volume                    VolNum
+2140401    0.0                       15
+*          AzimAng                   VolNum
+2140501    0.0                       15
+*          InclAng                   VolNum
+2140601    0.0                       15
+*          ElevationChange           VolNum
+2140701    0.0                       15
+*          Roughness  HydraulicDiam  VolNum
+2140801    5.0e-6     0.0            15
+*          Af         Ar             JunNum
+2140901    0.0        0.0            14  
+*          tlpvbfe                   VolNum
+2141001    0000000                   15
+*          efvcahs                   JunNum
+2141101    0000000                   14
+*          Ebt   Initial-Conditions             VolNum
+2141201    003   1.358e5  923.15  0.0   0.0  0.0  15
+*          Vel/Mfr
+2141300    1
+*          Liquid  Vapor  Interface  JunNum
+2141301    0.0     0.0    0.0        14
+*          JunHydDia  Flooding  c     Slope  JunNum
+2141401    0.0        0.0       1.0   1.0    14
+*
+*
+****************************************
+*        Single Junction - 215         *
+****************************************
+* loop junction 6
+*
+*          Name        Type
+2150000    loopjun6    sngljun
+*          From         To          Area
+2150101    214010000    216000000   1.2911e-2
+*          Af     Ar     efvcahs 
+2150102    0.1    0.1    0000000
+*          Vel/Mfr  Liquid     Vapor  Interface
+2150201    1        0.0        0.0    0.0
+*
+*
+****************************************
+*              Pipe - 216              *
+****************************************
+* loop segment 6
+*
+*          Name           Type
+2160000    lseg6          pipe
+*          NumOfVolumes
+2160001    6
+*          Area                      VolNum
+2160101    1.2911e-2                 6
+*          JunArea                   JunNum
+2160201    1.2911e-2                 5
+*          Length                    VolNum
+2160301    0.104526578               6
+*          Volume                    VolNum
+2160401    0.0                       6
+*          AzimAng                   VolNum
+2160501    90.0                      6
+*          InclAng                   VolNum
+2160601    -4.756055                 6
+*          ElevationChange           VolNum
+2160701    -0.0086666667             6
+*          Roughness  HydraulicDiam  VolNum
+2160801    5.0e-6     0.0            6
+*          Af         Ar             JunNum
+2160901    0.0        0.0            5  
+*          tlpvbfe                   VolNum
+2161001    0000000                   6
+*          efvcahs                   JunNum
+2161101    0000000                   5
+*          Ebt   Initial-Conditions             VolNum
+2161201    003   1.358e5  923.15  0.0   0.0  0.0  6
+*          Vel/Mfr
+2161300    1
+*          Liquid  Vapor  Interface  JunNum
+2161301    0.0     0.0    0.0        5
+*          JunHydDia  Flooding  c     Slope  JunNum
+2161401    0.0        0.0       1.0   1.0    5
+*
+*
+****************************************
+*        Single Junction - 217         *
+****************************************
+* loop junction 7
+*
+*          Name        Type
+2170000    loopjun7    sngljun
+*          From         To          Area
+2170101    216010000    218000000   1.2911e-2
+*          Af     Ar     efvcahs 
+2170102    0.1    0.1    0000000
+*          Vel/Mfr  Liquid     Vapor  Interface
+2170201    1        0.0        0.0    0.0
+*
+*
+****************************************
+*              Pipe - 218              *
+****************************************
+* Primary Heat Exchanger hot side
+* First volume is double length/volume
+*
+*          Name           Type
+2180000    phxhot         pipe
+*          NumOfVolumes
+2180001    13
+*          Area                      VolNum
+2180101    0.0648585                 13
+*          JunArea                   JunNum
+2180201    0.0648585                 12
+*          Length                    VolNum
+2180301    0.381048                  1
+2180302    0.190524                  13
+*          Volume                    VolNum
+2180401    0.0                       13
+*          AzimAng                   VolNum
+2180501    90.0                      13
+*          InclAng                   VolNum
+2180601    0.0                       13
+*          ElevationChange           VolNum
+2180701    0.0                       13
+*          Roughness  HydraulicDiam  VolNum
+2180801    5.0e-6     0.02           13
+*          Af         Ar             JunNum
+2180901    0.3        0.3            12  
+*          tlpvbfe                   VolNum
+2181001    0000000                   13
+*          efvcahs                   JunNum
+2181101    0000000                   12
+*          Ebt   Initial-Conditions             VolNum
+2181201    003   1.358e5  923.15  0.0   0.0  0.0  13
+*          Vel/Mfr
+2181300    1
+*          Liquid  Vapor  Interface  JunNum
+2181301    0.0     0.0    0.0        12
+*          JunHydDia  Flooding  c     Slope  JunNum
+2181401    0.0        0.0       1.0   1.0    12
+*
+*
+****************************************
+*        Single Junction - 219         *
+****************************************
+* loop junction 8
+*
+*          Name        Type
+2190000    loopjun8    sngljun
+*          From         To          Area
+2190101    218010000    220000000   1.2911e-2
+*          Af     Ar     efvcahs 
+2190102    0.1    0.1    0000000
+*          Vel/Mfr  Liquid     Vapor  Interface
+2190201    1        0.0        0.0    0.0
+*
+*
+****************************************
+*              Pipe - 220              *
+****************************************
+* loop segment 7
+* This segment is extended to close the loop
+* The previous node length was 0.104147391
+*          Name           Type
+2200000    lseg7          pipe
+*          NumOfVolumes
+2200001    18
+*          Area                      VolNum
+2200101    1.2911e-2                 18
+*          JunArea                   JunNum
+2200201    1.2911e-2                 17
+*          Length                    VolNum
+2200301    0.08004722378             18
+*          Volume                    VolNum
+2200401    0.0                       18
+*          AzimAng                   VolNum
+2200501    0.0                       18
+*          InclAng                   VolNum
+2200601    -90.0                     18
+*          ElevationChange           VolNum
+2200701    -0.08004722378            18
+*          Roughness  HydraulicDiam  VolNum
+2200801    5.0e-6     0.0            18
+*          Af         Ar             JunNum
+2200901    0.0        0.0            17  
+*          tlpvbfe                   VolNum
+2201001    0000000                   18
+*          efvcahs                   JunNum
+2201101    0000000                   17
+*          Ebt   Initial-Conditions             VolNum
+2201201    003   1.6e5 923.15  0.0   0.0  0.0   9
+2201202    003   1.7e5 923.15  0.0   0.0  0.0   18
+*          Vel/Mfr
+2201300    1
+*          Liquid  Vapor  Interface  JunNum
+2201301    0.0     0.0    0.0        17
+*          JunHydDia  Flooding  c     Slope  JunNum
+2201401    0.0        0.0       1.0   1.0    17
+*
+*
+****************************************
+*        Single Junction - 221         *
+****************************************
+* loop junction 9
+*
+*          Name        Type
+2210000    loopjun9    sngljun
+*          From         To          Area
+2210101    220010000    222000000   1.2911e-2
+*          Af     Ar     efvcahs 
+2210102    0.3    0.3    0000000
+*          Vel/Mfr  Liquid     Vapor  Interface
+2210201    1        0.0        0.0    0.0
+*
+*
+****************************************
+*              Pipe - 222              *
+****************************************
+* loop segment 8
+*
+*          Name           Type
+2220000    lseg8          pipe
+*          NumOfVolumes
+2220001    9
+*          Area                      VolNum
+2220101    1.2911e-2                 9
+*          JunArea                   JunNum
+2220201    1.2911e-2                 8
+*          Length                    VolNum
+2220301    0.1058888889              9
+*          Volume                    VolNum
+2220401    0.0                       9
+*          AzimAng                   VolNum
+2220501    0.0                       9
+*          InclAng                   VolNum
+2220601    0.0                       9
+*          ElevationChange           VolNum
+2220701    0.0                       9
+*          Roughness  HydraulicDiam  VolNum
+2220801    5.0e-6     0.0            9
+*          Af         Ar             JunNum
+2220901    0.0        0.0            8  
+*          tlpvbfe                   VolNum
+2221001    0000000                   9
+*          efvcahs                   JunNum
+2221101    0000000                   8
+*          Ebt   Initial-Conditions             VolNum
+2221201    003   1.8e5  923.15  0.0   0.0  0.0  9
+*          Vel/Mfr
+2221300    1
+*          Liquid  Vapor  Interface  JunNum
+2221301    0.0     0.0    0.0        8
+*          JunHydDia  Flooding  c     Slope  JunNum
+2221401    0.0        0.0       1.0   1.0    8
+*
+*
+****************************************
+*        Single Junction - 223         *
+****************************************
+* loop junction 10
+*
+*          Name        Type
+2230000    loopjn10    sngljun
+*          From         To          Area
+2230101    222010000    224000000   1.2911e-2
+*          Af     Ar     efvcahs 
+2230102    0.0    0.0    0000000
+*          Vel/Mfr  Liquid     Vapor  Interface
+2230201    1        0.0        0.0    0.0
+*
+*
+****************************************
+*              Pipe - 224              *
+****************************************
+* loop segment 9
+*
+*          Name           Type
+2240000    lseg9          pipe
+*          NumOfVolumes
+2240001    24
+*          Area                      VolNum
+2240101    1.2911e-2                 24
+*          JunArea                   JunNum
+2240201    1.2911e-2                 23
+*          Length                    VolNum
+2240301    0.105227168               24
+*          Volume                    VolNum
+2240401    0.0                       24
+*          AzimAng                   VolNum
+2240501    90.0                      24
+*          InclAng                   VolNum
+2240601    -0.299609363              24
+*          ElevationChange           VolNum
+2240701    -0.0055                   24
+*          Roughness  HydraulicDiam  VolNum
+2240801    5.0e-6     0.0            24
+*          Af         Ar             JunNum
+2240901    0.0        0.0            23  
+*          tlpvbfe                   VolNum
+2241001    0000000                   24
+*          efvcahs                   JunNum
+2241101    0000000                   23
+*          Ebt   Initial-Conditions             VolNum
+2241201    003   1.8e5  923.15  0.0   0.0  0.0  24
+*          Vel/Mfr
+2241300    1
+*          Liquid  Vapor  Interface  JunNum
+2241301    0.0     0.0    0.0        23
+*          JunHydDia  Flooding  c     Slope  JunNum
+2241401    0.0        0.0       1.0   1.0    23
+*
+*
+****************************************
+*        Single Junction - 225         *
+****************************************
+* loop junction 11
+*
+*          Name        Type
+2250000    loopjn11    sngljun
+*          From         To          Area
+2250101    224010000    226000000   1.2911e-2
+*          Af     Ar     efvcahs 
+2250102    0.0    0.0    0000000
+*          Vel/Mfr  Liquid     Vapor  Interface
+2250201    1        0.0        0.0    0.0
+*
+*
+****************************************
+*              Pipe - 226              *
+****************************************
+* loop segment 10
+*
+*          Name           Type
+2260000    lsg10          pipe
+*          NumOfVolumes
+2260001    3
+*          Area                      VolNum
+2260101    1.2911e-2                 3
+*          JunArea                   JunNum
+2260201    1.2911e-2                 2
+*          Length                    VolNum
+2260301    0.12080149                3
+*          Volume                    VolNum
+2260401    0.0                       3
+*          AzimAng                   VolNum
+2260501    53.4118097                3
+*          InclAng                   VolNum
+2260601    0.0                       3
+*          ElevationChange           VolNum
+2260701    0.0                       3
+*          Roughness  HydraulicDiam  VolNum
+2260801    5.0e-6     0.0            3
+*          Af         Ar             JunNum
+2260901    0.0        0.0            2  
+*          tlpvbfe                   VolNum
+2261001    0000000                   3
+*          efvcahs                   JunNum
+2261101    0000000                   2
+*          Ebt   Initial-Conditions             VolNum
+2261201    003   1.8e5  923.15  0.0   0.0  0.0  3
+*          Vel/Mfr
+2261300    1
+*          Liquid  Vapor  Interface  JunNum
+2261301    0.0     0.0    0.0        2
+*          JunHydDia  Flooding  c     Slope  JunNum
+2261401    0.0        0.0       1.0   1.0    2
+*
+*
+****************************************
+*        Single Junction - 227         *
+****************************************
+* loop junction 12
+*
+*          Name        Type
+2270000    loopjn12    sngljun
+*          From         To          Area
+2270101    226010000    190000000   1.2911e-2
+*          Af     Ar     efvcahs 
+2270102    0.0    0.0    0000000
+*          Vel/Mfr  Liquid     Vapor  Interface
+2270201    1        0.0        0.0    0.0
+*
+*
+* ****************************************
+* *        Single Junction - 251         *
+* ****************************************
+* *          Name        Type
+* 2510000    surgejun    sngljun
+* *          From         To          Area
+* 2510101    210010000    252000000   8.21306e-3
+* *          Af     Ar     efvcahs 
+* 2510102    0.0    0.0    0000000
+* *          Vel/Mfr  Liquid     Vapor  Interface
+* 2510201    1        0.0        0.0    0.0
+* *
+* *
+* ****************************************
+* *              Pipe - 252              *
+* ****************************************
+* *          Name           Type
+* 2520000    surgelin       pipe
+* *          NumOfVolumes
+* 2520001    6
+* *          Area                      VolNum
+* 2520101    8.21306e-3                6
+* *          JunArea                   JunNum
+* 2520201    8.21306e-3                5
+* *          Length                    VolNum
+* 2520301    0.2                       6
+* *          Volume                    VolNum
+* 2520401    0.0                       6
+* *          AzimAng                   VolNum
+* 2520501    0.0                       6
+* *          InclAng                   VolNum
+* 2520601    90.0                      6
+* *          ElevationChange           VolNum
+* 2520701    0.2                       6
+* *          Roughness  HydraulicDiam  VolNum
+* 2520801    5.0e-6     0.0            6
+* *          Af         Ar             JunNum
+* 2520901    0.5        0.5            5  
+* *          tlpvbfe                   VolNum
+* 2521001    0000000                   6
+* *          efvcahs                   JunNum
+* 2521101    0000000                   5
+* *          Ebt   Initial-Conditions             VolNum
+* 2521201    004   1.358e5  923.15  1.0   0.0  0.0  6
+* *          Vel/Mfr
+* 2521300    1
+* *          Liquid  Vapor  Interface  JunNum
+* 2521301    0.0     0.0    0.0        5
+* *          JunHydDia  Flooding  c     Slope  JunNum
+* 2521401    0.0        0.0       1.0   1.0    5
+* *
+* *
+* ****************************************
+* *        Single Junction - 255         *
+* ****************************************
+* *          Name        Type
+* 2530000    cgsjun      sngljun
+* *          From         To          Area
+* 2530101    252010000    254000000   8.21306e-3
+* *          Af     Ar     efvcahs 
+* 2530102    0.0    0.0    0000000
+* *          Vel/Mfr  Liquid     Vapor  Interface
+* 2530201    1        0.0        0.0    0.0
+* *
+* *
+* ****************************************
+* *     Time Dependent Volume - 256      *
+* ****************************************
+* *          Name           Type
+* 2540000    presbc         tmdpvol
+* *          Area       Length    Volume
+* 2540101    8.21306e-3 1.0       0.0
+* *          AzimAng   InclAng    ElevationChange
+* 2540102    0.0       90.0       1.0
+* *          Roughness  HydraulicDiam  Tlpvbfe
+* 2540103    5.0e-6     0.0            0000000
+* *          Ebt       TripNum   SearchVar
+* 2540200    004       0         time
+* *          SearchVar      Pres      Temp      Qual
+* 2540201    0.0            1.358e5   923.15    1.0
+* 2540202    1000.0         1.358e5   923.15    1.0
+*
+*
+****************************************
+*        Single Junction - 253         *
+****************************************
+*          Name        Type
+2530000    cgsjun      sngljun
+*          From         To          Area
+2530101    210010000    254000000   8.21306e-3
+*          Af     Ar     efvcahs 
+2530102    0.0    0.0    0000000
+*          Vel/Mfr  Liquid     Vapor  Interface
+2530201    1        0.0        0.0    0.0
+*
+*
+****************************************
+*     Time Dependent Volume - 254      *
+****************************************
+*          Name           Type
+2540000    presbc         tmdpvol
+*          Area       Length    Volume
+2540101    8.21306e-3 1.0       0.0
+*          AzimAng   InclAng    ElevationChange
+2540102    0.0       90.0       1.0
+*          Roughness  HydraulicDiam  Tlpvbfe
+2540103    5.0e-6     0.0            0000000
+*          Ebt       TripNum   SearchVar
+2540200    003       0         time
+*          SearchVar      Pres      Temp
+2540201    0.0            1.358e5   923.15
+2540202    1000.0         1.358e5   923.15
+
+
+*******************************************************************************
+*                                                                             *
+*                      Secondary Salt Loop Components                         *
+*                                                                             *
+*******************************************************************************
+*
+****************************************
+*     Time Dependent Volume - 302      *
+****************************************
+*          Name           Type
+3020000    saltsrc        tmdpvol
+*          Area       Length    Volume
+3020101    0.2        0.2       0.0
+*          AzimAng   InclAng    ElevationChange
+3020102    0.0       0.0        0.0
+*          Roughness  HydraulicDiam  Tlpvbfe
+3020103    5.0e-6     0.0            0000000
+*          Ebt       TripNum   SearchVar
+3020200    003       0         time
+*          SearchVar      Pres      Temp
+3020201    0.0            1.0e5     824.8
+3020202    1000.0         1.0e5     824.8  
+*
+*
+****************************************
+*    Time Dependent Junction - 303     *
+****************************************
+*          Name       Type
+3030000    sflowbc     tmdpjun
+*          From         To          Area        efvcahs
+3030101    302010000    304000000   0.03929     0000000
+*          Vel/Mfr   TripNum   SearchVar
+3030200    1         0         time
+*          SearchVar   Liquid    Vapor        Interface
+3030201    0.0         0.0       0.0          0.0
+3030202    5.0         108.465   0.0          0.0
+3030203    1000.0      108.465   0.0          0.0
+*
+*
+****************************************
+*              Pipe - 304              *
+****************************************
+*          Name           Type
+3040000    phxcold        pipe
+*          NumOfVolumes
+3040001    13
+*          Area                      VolNum
+3040101    0.03929                   13
+*          JunArea                   JunNum
+3040201    0.03929                   12
+*          Length                    VolNum
+3040301    0.190524                  6
+3040302    0.381048                  7
+3040303    0.190524                  13
+*          Volume                    VolNum
+3040401    0.0                       13
+*          AzimAng                   VolNum
+3040501    0.0                       13
+*          InclAng                   VolNum
+3040601    0.0                       13
+*          ElevationChange           VolNum
+3040701    0.0                       13
+*          Roughness  HydraulicDiam  VolNum
+3040801    5.0e-6     0.0105664      13
+*          Af         Ar             JunNum
+3040901    0.0        0.0            12  
+*          tlpvbfe                   VolNum
+3041001    0000000                   13
+*          efvcahs                   JunNum
+3041101    0000000                   12
+*          Ebt   Initial-Conditions             VolNum
+3041201    003   1.0e5  900.15  0.0   0.0  0.0  13
+*          Vel/Mfr
+3041300    1
+*          Liquid  Vapor  Interface  JunNum
+3041301    0.0     0.0    0.0        12
+*          JunHydDia  Flooding  c     Slope  JunNum
+3041401    0.0        0.0       1.0   1.0    12
+*
+*
+****************************************
+*        Single Junction - 305         *
+****************************************
+*          Name        Type
+3050000    l2jun       sngljun
+*          From         To          Area
+3050101    304010000    306000000   0.03929
+*          Af     Ar     efvcahs 
+3050102    0.0    0.0    0000100
+*          Vel/Mfr  Liquid     Vapor  Interface
+3050201    1        0.0        0.0    0.0
+*
+*
+****************************************
+*     Time Dependent Volume - 306      *
+****************************************
+*          Name           Type
+3060000    saltsink       tmdpvol
+*          Area       Length    Volume
+3060101    0.2        0.2       0.0
+*          AzimAng   InclAng    ElevationChange
+3060102    0.0       0.0        0.0
+*          Roughness  HydraulicDiam  Tlpvbfe
+3060103    0.0        0.0            0000000
+*          Ebt       TripNum   SearchVar
+3060200    003       0         time
+*          SearchVar      Pres      Temp
+3060201    0.0            1.0e5     900.15
+3060202    1000.0         1.0e5     900.15
+*
+*
+*******************************************************************************
+*                                                                             *
+*                              Heat Structures                                *
+*                                                                             *
+*******************************************************************************
+*
+****************************************
+*        Fuel Region 1 - 1501          *
+****************************************
+* Fuel heat structure simulating homogeneous salt core
+*
+*           AxialHS  RadMesh  GeoType  SSFlag  LeftBound   Reflood  
+15010000    20       3        2        0       0.0         0
+*           MeshLocation     MeshFormat
+15010100    0                1 
+*           NumOfIntervals   RightCoordinate
+15010101    2                0.01
+*           CompositionNum   IntervalNum
+15010201    1                2
+*           SourceValue      IntervalNum
+15010301    1.0              2
+*           InitialTemp      MeshPointNum
+15010401    923.15           3
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+15010501    0                  0       0       0       0          20
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+15010601    131010000          10000   1       1       0.13       20
+*           SourceType  Pf    LeftBoundMult   RightBoundMult  HSNum
+15010701    10001       0.05  0.0             1.0             1
+15010702    10001       0.05  0.0             1.0             2
+15010703    10001       0.05  0.0             1.0             3
+15010704    10001       0.05  0.0             1.0             4
+15010705    10001       0.05  0.0             1.0             5
+15010706    10001       0.05  0.0             1.0             6
+15010707    10001       0.05  0.0             1.0             7
+15010708    10001       0.05  0.0             1.0             8
+15010709    10001       0.05  0.0             1.0             9
+15010710    10001       0.05  0.0             1.0             10
+15010711    10001       0.05  0.0             1.0             11
+15010712    10001       0.05  0.0             1.0             12
+15010713    10001       0.05  0.0             1.0             13
+15010714    10001       0.05  0.0             1.0             14
+15010715    10001       0.05  0.0             1.0             15
+15010716    10001       0.05  0.0             1.0             16
+15010717    10001       0.05  0.0             1.0             17
+15010718    10001       0.05  0.0             1.0             18
+15010719    10001       0.05  0.0             1.0             19
+15010720    10001       0.05  0.0             1.0             20
+*           WordFormat
+15010800    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+15010801    0.0        20.0   20.0   0.0     0.0     0.0     0.0     1.0   20
+*           WordFormat
+15010900    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+15010901    0.0        20.0   20.0   0.0     0.0     0.0     0.0     1.0   20
+*
+*
+****************************************
+*        Fuel Region 2 - 1502          *
+****************************************
+* Fuel heat structure simulating homogeneous salt core
+*
+*           AxialHS  RadMesh  GeoType  SSFlag  LeftBound   Reflood  
+15020000    20       3        2        0       0.0         0
+*           MeshLocation     MeshFormat
+15020100    0                1 
+*           NumOfIntervals   RightCoordinate
+15020101    2                0.01
+*           CompositionNum   IntervalNum
+15020201    1                2
+*           SourceValue      IntervalNum
+15020301    1.0              2
+*           InitialTemp      MeshPointNum
+15020401    923.15           3
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+15020501    0                  0       0       0       0          20
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+15020601    132010000          10000   1       1       0.13       20
+*           SourceType  Pf    LeftBoundMult   RightBoundMult  HSNum
+15020701    10002       0.05  0.0             1.0             1
+15020702    10002       0.05  0.0             1.0             2
+15020703    10002       0.05  0.0             1.0             3
+15020704    10002       0.05  0.0             1.0             4
+15020705    10002       0.05  0.0             1.0             5
+15020706    10002       0.05  0.0             1.0             6
+15020707    10002       0.05  0.0             1.0             7
+15020708    10002       0.05  0.0             1.0             8
+15020709    10002       0.05  0.0             1.0             9
+15020710    10002       0.05  0.0             1.0             10
+15020711    10002       0.05  0.0             1.0             11
+15020712    10002       0.05  0.0             1.0             12
+15020713    10002       0.05  0.0             1.0             13
+15020714    10002       0.05  0.0             1.0             14
+15020715    10002       0.05  0.0             1.0             15
+15020716    10002       0.05  0.0             1.0             16
+15020717    10002       0.05  0.0             1.0             17
+15020718    10002       0.05  0.0             1.0             18
+15020719    10002       0.05  0.0             1.0             19
+15020720    10002       0.05  0.0             1.0             20
+*           WordFormat
+15020800    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+15020801    0.0        20.0   20.0   0.0     0.0     0.0     0.0     1.0   20
+*           WordFormat
+15020900    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+15020901    0.0        20.0   20.0   0.0     0.0     0.0     0.0     1.0   20
+*
+*
+****************************************
+*        Fuel Region 3 - 1503          *
+****************************************
+* Fuel heat structure simulating homogeneous salt core
+*
+*           AxialHS  RadMesh  GeoType  SSFlag  LeftBound   Reflood  
+15030000    20       3        2        0       0.0         0
+*           MeshLocation     MeshFormat
+15030100    0                1 
+*           NumOfIntervals   RightCoordinate
+15030101    2                0.01
+*           CompositionNum   IntervalNum
+15030201    1                2
+*           SourceValue      IntervalNum
+15030301    1.0              2
+*           InitialTemp      MeshPointNum
+15030401    923.15           3
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+15030501    0                  0       0       0       0          20
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+15030601    133010000          10000   1       1       0.13       20
+*           SourceType  Pf    LeftBoundMult   RightBoundMult  HSNum
+15030701    10003       0.05  0.0             1.0             1
+15030702    10003       0.05  0.0             1.0             2
+15030703    10003       0.05  0.0             1.0             3
+15030704    10003       0.05  0.0             1.0             4
+15030705    10003       0.05  0.0             1.0             5
+15030706    10003       0.05  0.0             1.0             6
+15030707    10003       0.05  0.0             1.0             7
+15030708    10003       0.05  0.0             1.0             8
+15030709    10003       0.05  0.0             1.0             9
+15030710    10003       0.05  0.0             1.0             10
+15030711    10003       0.05  0.0             1.0             11
+15030712    10003       0.05  0.0             1.0             12
+15030713    10003       0.05  0.0             1.0             13
+15030714    10003       0.05  0.0             1.0             14
+15030715    10003       0.05  0.0             1.0             15
+15030716    10003       0.05  0.0             1.0             16
+15030717    10003       0.05  0.0             1.0             17
+15030718    10003       0.05  0.0             1.0             18
+15030719    10003       0.05  0.0             1.0             19
+15030720    10003       0.05  0.0             1.0             20
+*           WordFormat
+15030800    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+15030801    0.0        20.0   20.0   0.0     0.0     0.0     0.0     1.0   20
+*           WordFormat
+15030900    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+15030901    0.0        20.0   20.0   0.0     0.0     0.0     0.0     1.0   20
+*
+*
+****************************************
+*        Fuel Region 4 - 1504          *
+****************************************
+* Fuel heat structure simulating homogeneous salt core
+*
+*           AxialHS  RadMesh  GeoType  SSFlag  LeftBound   Reflood  
+15040000    20       3        2        0       0.0         0
+*           MeshLocation     MeshFormat
+15040100    0                1 
+*           NumOfIntervals   RightCoordinate
+15040101    2                0.01
+*           CompositionNum   IntervalNum
+15040201    1                2
+*           SourceValue      IntervalNum
+15040301    1.0              2
+*           InitialTemp      MeshPointNum
+15040401    923.15           3
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+15040501    0                  0       0       0       0          20
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+15040601    134010000          10000   1       1       0.13       20
+*           SourceType  Pf    LeftBoundMult   RightBoundMult  HSNum
+15040701    10004       0.05  0.0             1.0             1
+15040702    10004       0.05  0.0             1.0             2
+15040703    10004       0.05  0.0             1.0             3
+15040704    10004       0.05  0.0             1.0             4
+15040705    10004       0.05  0.0             1.0             5
+15040706    10004       0.05  0.0             1.0             6
+15040707    10004       0.05  0.0             1.0             7
+15040708    10004       0.05  0.0             1.0             8
+15040709    10004       0.05  0.0             1.0             9
+15040710    10004       0.05  0.0             1.0             10
+15040711    10004       0.05  0.0             1.0             11
+15040712    10004       0.05  0.0             1.0             12
+15040713    10004       0.05  0.0             1.0             13
+15040714    10004       0.05  0.0             1.0             14
+15040715    10004       0.05  0.0             1.0             15
+15040716    10004       0.05  0.0             1.0             16
+15040717    10004       0.05  0.0             1.0             17
+15040718    10004       0.05  0.0             1.0             18
+15040719    10004       0.05  0.0             1.0             19
+15040720    10004       0.05  0.0             1.0             20
+*           WordFormat
+15040800    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+15040801    0.0        20.0   20.0   0.0     0.0     0.0     0.0     1.0   20
+*           WordFormat
+15040900    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+15040901    0.0        20.0   20.0   0.0     0.0     0.0     0.0     1.0   20
+*
+*
+****************************************
+*        Fuel Region 5 - 1505          *
+****************************************
+* Fuel heat structure simulating homogeneous salt core
+*
+*           AxialHS  RadMesh  GeoType  SSFlag  LeftBound   Reflood  
+15050000    20       3        2        0       0.0         0
+*           MeshLocation     MeshFormat
+15050100    0                1 
+*           NumOfIntervals   RightCoordinate
+15050101    2                0.01
+*           CompositionNum   IntervalNum
+15050201    1                2
+*           SourceValue      IntervalNum
+15050301    1.0              2
+*           InitialTemp      MeshPointNum
+15050401    923.15           3
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+15050501    0                  0       0       1       0.13       20
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+15050601    135010000          10000   1       1       0.13       20
+*           SourceType  Pf    LeftBoundMult   RightBoundMult  HSNum
+15050701    10005       0.05  0.0             1.0             1
+15050702    10005       0.05  0.0             1.0             2
+15050703    10005       0.05  0.0             1.0             3
+15050704    10005       0.05  0.0             1.0             4
+15050705    10005       0.05  0.0             1.0             5
+15050706    10005       0.05  0.0             1.0             6
+15050707    10005       0.05  0.0             1.0             7
+15050708    10005       0.05  0.0             1.0             8
+15050709    10005       0.05  0.0             1.0             9
+15050710    10005       0.05  0.0             1.0             10
+15050711    10005       0.05  0.0             1.0             11
+15050712    10005       0.05  0.0             1.0             12
+15050713    10005       0.05  0.0             1.0             13
+15050714    10005       0.05  0.0             1.0             14
+15050715    10005       0.05  0.0             1.0             15
+15050716    10005       0.05  0.0             1.0             16
+15050717    10005       0.05  0.0             1.0             17
+15050718    10005       0.05  0.0             1.0             18
+15050719    10005       0.05  0.0             1.0             19
+15050720    10005       0.05  0.0             1.0             20
+*           WordFormat
+15050800    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+15050801    0.0        20.0   20.0   0.0     0.0     0.0     0.0     1.0   20
+*           WordFormat
+15050900    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+15050901    0.0        20.0   20.0   0.0     0.0     0.0     0.0     1.0   20
+*
+*
+****************************************
+*       Graphite Region 1 - 1101       *
+****************************************
+*
+*           AxialHS  RadMesh  GeoType  SSFlag  LeftBound   Reflood  
+11010000    20       11       2        0       0.2575      0
+*           MeshLocation     MeshFormat
+11010100    0                1 
+*           NumOfIntervals   RightCoordinate
+11010101    10               0.2625
+*           CompositionNum   IntervalNum
+11010201    004              10
+*           SourceValue      IntervalNum
+11010301    1.0              10
+*           InitialTemp      MeshPointNum
+11010401    973.15           11
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+11010501    131010000          10000   1       1       8.001e-2   20
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+11010601    0                  0       0       1       8.001e-2   20
+*           SourceType  Pf    LeftBoundMult   RightBoundMult  HSNum
+11010701    10001       0.1   0.0             0.0             20
+*           WordFormat
+11010800    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+11010801    0.0        20.0   20.0   0.0     0.0     0.0     0.0     1.0   20
+*           WordFormat
+11010900    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+11010901    0.0        20.0   20.0   0.0     0.0     0.0     0.0     1.0   20
+*
+*
+****************************************
+*       Graphite Region 2 - 1102       *
+****************************************
+*
+*           AxialHS  RadMesh  GeoType  SSFlag  LeftBound   Reflood  
+11020000    20       11       1        0       0.2575      0
+*           MeshLocation     MeshFormat
+11020100    0                1 
+*           NumOfIntervals   RightCoordinate
+11020101    10               0.2625
+*           CompositionNum   IntervalNum
+11020201    004              10
+*           SourceValue      IntervalNum
+11020301    1.0              10
+*           InitialTemp      MeshPointNum
+11020401    973.15           11
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+11020501    132010000          10000   1       1       8.001e-2   20
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+11020601    0                  0       0       1       8.001e-2   20
+*           SourceType  Pf    LeftBoundMult   RightBoundMult  HSNum
+11020701    10001       0.1   0.0             0.0             20
+*           WordFormat
+11020800    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+11020801    0.0        20.0   20.0   0.0     0.0     0.0     0.0     1.0   20
+*           WordFormat
+11020900    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+11020901    0.0        20.0   20.0   0.0     0.0     0.0     0.0     1.0   20
+*
+*
+****************************************
+*       Graphite Region 3 - 1103       *
+****************************************
+*
+*           AxialHS  RadMesh  GeoType  SSFlag  LeftBound   Reflood  
+11030000    20       11       1        0       0.2575      0
+*           MeshLocation     MeshFormat
+11030100    0                1 
+*           NumOfIntervals   RightCoordinate
+11030101    10               0.2625
+*           CompositionNum   IntervalNum
+11030201    004              10
+*           SourceValue      IntervalNum
+11030301    1.0              10
+*           InitialTemp      MeshPointNum
+11030401    973.15           11
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+11030501    133010000          10000   1       1       8.001e-2   20
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+11030601    0                  0       0       1       8.001e-2   20
+*           SourceType  Pf    LeftBoundMult   RightBoundMult  HSNum
+11030701    10001       0.1   0.0             0.0             20
+*           WordFormat
+11030800    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+11030801    0.0        20.0   20.0   0.0     0.0     0.0     0.0     1.0   20
+*           WordFormat
+11030900    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+11030901    0.0        20.0   20.0   0.0     0.0     0.0     0.0     1.0   20
+*
+*
+****************************************
+*       Graphite Region 4 - 1104       *
+****************************************
+*
+*           AxialHS  RadMesh  GeoType  SSFlag  LeftBound   Reflood  
+11040000    20       11       1        0       0.2575      0
+*           MeshLocation     MeshFormat
+11040100    0                1 
+*           NumOfIntervals   RightCoordinate
+11040101    10               0.2625
+*           CompositionNum   IntervalNum
+11040201    004              10
+*           SourceValue      IntervalNum
+11040301    1.0              10
+*           InitialTemp      MeshPointNum
+11040401    973.15           11
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+11040501    134010000          10000   1       1       8.001e-2   20
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+11040601    0                  0       0       1       8.001e-2   20
+*           SourceType  Pf    LeftBoundMult   RightBoundMult  HSNum
+11040701    10001       0.1   0.0             0.0             20
+*           WordFormat
+11040800    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+11040801    0.0        20.0   20.0   0.0     0.0     0.0     0.0     1.0   20
+*           WordFormat
+11040900    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+11040901    0.0        20.0   20.0   0.0     0.0     0.0     0.0     1.0   20
+*
+*
+****************************************
+*       Graphite Region 5 - 1105       *
+****************************************
+*
+*           AxialHS  RadMesh  GeoType  SSFlag  LeftBound   Reflood  
+11050000    20       11       1        0       0.2575      0
+*           MeshLocation     MeshFormat
+11050100    0                1 
+*           NumOfIntervals   RightCoordinate
+11050101    10               0.2625
+*           CompositionNum   IntervalNum
+11050201    004              10
+*           SourceValue      IntervalNum
+11050301    1.0              10
+*           InitialTemp      MeshPointNum
+11050401    973.15           11
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+11050501    135010000          10000   1       1       8.001e-2   20
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+11050601    0                  0       0       1       8.001e-2   20
+*           SourceType  Pf    LeftBoundMult   RightBoundMult  HSNum
+11050701    10001       0.1   0.0             0.0             20
+*           WordFormat
+11050800    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+11050801    0.0        20.0   20.0   0.0     0.0     0.0     0.0     1.0   20
+*           WordFormat
+11050900    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+11050901    0.0        20.0   20.0   0.0     0.0     0.0     0.0     1.0   20
+*
+*
+*******************************************************************************
+*                                                                             *
+*                         Primary Heat Exchanger                              *
+*                                                                             *
+*******************************************************************************
+*
+****************************************
+*         Primary HX 1 - 1201          *
+****************************************
+*
+*           AxialHS  RadMesh  GeoType  SSFlag  LeftBound   Reflood  
+12010000    1        11       2        0       0.0058832   0
+*           MeshLocation     MeshFormat
+12010100    0                1 
+*           NumOfIntervals   RightCoordinate
+12010101    10               0.00635
+*           CompositionNum   IntervalNum
+12010201    001              10
+*           SourceValue      IntervalNum
+12010301    1.0              10
+*           InitialTemp      MeshPointNum
+12010401    923.15           11
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+12010501    218010000          10000   1       1       180.586632  1
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+12010601    304070000          10000   1       1       180.586632  1
+*           SourceType  Pf    LeftBoundMult   RightBoundMult  HSNum
+12010701    0           0     0.0             0.0             1
+*           WordFormat
+12010800    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+12010801    0.0105664  20.0   20.0   0.0     0.0     0.0     0.0     1.0   1
+*           WordFormat
+12010900    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+12010901    0.02       20.0   20.0   0.0     0.0     0.0     0.0     1.0   1
+*
+*
+****************************************
+*         Primary HX 2 - 1202          *
+****************************************
+*
+*           AxialHS  RadMesh  GeoType  SSFlag  LeftBound   Reflood  
+12020000    1        11       2        0       0.0058832   0
+*           MeshLocation     MeshFormat
+12020100    0                1 
+*           NumOfIntervals   RightCoordinate
+12020101    10               0.00635
+*           CompositionNum   IntervalNum
+12020201    001              10
+*           SourceValue      IntervalNum
+12020301    1.0              10
+*           InitialTemp      MeshPointNum
+12020401    923.15           11
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+12020501    218020000          10000   1       1       120.293316  1
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+12020601    304080000          10000   1       1       120.293316  1
+*           SourceType  Pf    LeftBoundMult   RightBoundMult  HSNum
+12020701    0           0     0.0             0.0             1
+*           WordFormat
+12020800    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+12020801    0.0105664  20.0   20.0   0.0     0.0     0.0     0.0     1.0   1
+*           WordFormat
+12020900    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+12020901    0.02       20.0   20.0   0.0     0.0     0.0     0.0     1.0   1
+*
+*
+****************************************
+*         Primary HX 3 - 1203          *
+****************************************
+*
+*           AxialHS  RadMesh  GeoType  SSFlag  LeftBound   Reflood  
+12030000    1        11       2        0       0.0058832   0
+*           MeshLocation     MeshFormat
+12030100    0                1 
+*           NumOfIntervals   RightCoordinate
+12030101    10               0.00635
+*           CompositionNum   IntervalNum
+12030201    001              10
+*           SourceValue      IntervalNum
+12030301    1.0              10
+*           InitialTemp      MeshPointNum
+12030401    923.15           11
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+12030501    218030000          10000   1       1       120.293316  1
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+12030601    304060000          10000   1       1       120.293316  1
+*           SourceType  Pf    LeftBoundMult   RightBoundMult  HSNum
+12030701    0           0     0.0             0.0             1
+*           WordFormat
+12030800    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+12030801    0.0105664  20.0   20.0   0.0     0.0     0.0     0.0     1.0   1
+*           WordFormat
+12030900    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+12030901    0.02        20.0   20.0   0.0     0.0     0.0     0.0     1.0   1
+*
+*
+****************************************
+*         Primary HX 4 - 1204          *
+****************************************
+*
+*           AxialHS  RadMesh  GeoType  SSFlag  LeftBound   Reflood  
+12040000    1        11       2        0       0.0058832   0
+*           MeshLocation     MeshFormat
+12040100    0                1 
+*           NumOfIntervals   RightCoordinate
+12040101    10               0.00635
+*           CompositionNum   IntervalNum
+12040201    001              10
+*           SourceValue      IntervalNum
+12040301    1.0              10
+*           InitialTemp      MeshPointNum
+12040401    923.15           11
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+12040501    218040000          10000   1       1       120.293316  1
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+12040601    304050000          10000   1       1       120.293316  1
+*           SourceType  Pf    LeftBoundMult   RightBoundMult  HSNum
+12040701    0           0     0.0             0.0             1
+*           WordFormat
+12040800    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+12040801    0.0105664  20.0   20.0   0.0     0.0     0.0     0.0     1.0   1
+*           WordFormat
+12040900    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+12040901    0.02        20.0   20.0   0.0     0.0     0.0     0.0     1.0   1
+*
+*
+****************************************
+*         Primary HX 5 - 1205          *
+****************************************
+*
+*           AxialHS  RadMesh  GeoType  SSFlag  LeftBound   Reflood  
+12050000    1        11       2        0       0.0058832   0
+*           MeshLocation     MeshFormat
+12050100    0                1 
+*           NumOfIntervals   RightCoordinate
+12050101    10               0.00635
+*           CompositionNum   IntervalNum
+12050201    001              10
+*           SourceValue      IntervalNum
+12050301    1.0              10
+*           InitialTemp      MeshPointNum
+12050401    923.15           11
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+12050501    218050000          10000   1       1       120.293316  1
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+12050601    304090000          10000   1       1       120.293316  1
+*           SourceType  Pf    LeftBoundMult   RightBoundMult  HSNum
+12050701    0           0     0.0             0.0             1
+*           WordFormat
+12050800    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+12050801    0.0105664  20.0   20.0   0.0     0.0     0.0     0.0     1.0   1
+*           WordFormat
+12050900    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+12050901    0.02        20.0   20.0   0.0     0.0     0.0     0.0     1.0   1
+*
+*
+****************************************
+*         Primary HX 6 - 1206          *
+****************************************
+*
+*           AxialHS  RadMesh  GeoType  SSFlag  LeftBound   Reflood  
+12060000    1        11       2        0       0.0058832   0
+*           MeshLocation     MeshFormat
+12060100    0                1 
+*           NumOfIntervals   RightCoordinate
+12060101    10               0.00635
+*           CompositionNum   IntervalNum
+12060201    001              10
+*           SourceValue      IntervalNum
+12060301    1.0              10
+*           InitialTemp      MeshPointNum
+12060401    923.15           11
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+12060501    218060000          10000   1       1       120.293316  1
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+12060601    304100000          10000   1       1       120.293316  1
+*           SourceType  Pf    LeftBoundMult   RightBoundMult  HSNum
+12060701    0           0     0.0             0.0             1
+*           WordFormat
+12060800    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+12060801    0.0105664  20.0   20.0   0.0     0.0     0.0     0.0     1.0   1
+*           WordFormat
+12060900    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+12060901    0.02        20.0   20.0   0.0     0.0     0.0     0.0     1.0   1
+*
+*
+****************************************
+*         Primary HX 7 - 1207          *
+****************************************
+*
+*           AxialHS  RadMesh  GeoType  SSFlag  LeftBound   Reflood  
+12070000    1        11       2        0       0.0058832   0
+*           MeshLocation     MeshFormat
+12070100    0                1 
+*           NumOfIntervals   RightCoordinate
+12070101    10               0.00635
+*           CompositionNum   IntervalNum
+12070201    001              10
+*           SourceValue      IntervalNum
+12070301    1.0              10
+*           InitialTemp      MeshPointNum
+12070401    923.15           11
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+12070501    218070000          10000   1       1       120.293316  1
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+12070601    304040000          10000   1       1       120.293316  1
+*           SourceType  Pf    LeftBoundMult   RightBoundMult  HSNum
+12070701    0           0     0.0             0.0             1
+*           WordFormat
+12070800    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+12070801    0.0105664  20.0   20.0   0.0     0.0     0.0     0.0     1.0   1
+*           WordFormat
+12070900    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+12070901    0.02        20.0   20.0   0.0     0.0     0.0     0.0     1.0   1
+*
+*
+****************************************
+*         Primary HX 8 - 1208          *
+****************************************
+*
+*           AxialHS  RadMesh  GeoType  SSFlag  LeftBound   Reflood  
+12080000    1        11       2        0       0.0058832   0
+*           MeshLocation     MeshFormat
+12080100    0                1 
+*           NumOfIntervals   RightCoordinate
+12080101    10               0.00635
+*           CompositionNum   IntervalNum
+12080201    001              10
+*           SourceValue      IntervalNum
+12080301    1.0              10
+*           InitialTemp      MeshPointNum
+12080401    923.15           11
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+12080501    218080000          10000   1       1       120.293316  1
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+12080601    304030000          10000   1       1       120.293316  1
+*           SourceType  Pf    LeftBoundMult   RightBoundMult  HSNum
+12080701    0           0     0.0             0.0             1
+*           WordFormat
+12080800    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+12080801    0.0105664  20.0   20.0   0.0     0.0     0.0     0.0     1.0   1
+*           WordFormat
+12080900    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+12080901    0.02        20.0   20.0   0.0     0.0     0.0     0.0     1.0   1
+*
+*
+****************************************
+*         Primary HX 9 - 1209          *
+****************************************
+*
+*           AxialHS  RadMesh  GeoType  SSFlag  LeftBound   Reflood  
+12090000    1        11       2        0       0.0058832   0
+*           MeshLocation     MeshFormat
+12090100    0                1 
+*           NumOfIntervals   RightCoordinate
+12090101    10               0.00635
+*           CompositionNum   IntervalNum
+12090201    001              10
+*           SourceValue      IntervalNum
+12090301    1.0              10
+*           InitialTemp      MeshPointNum
+12090401    923.15           11
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+12090501    218090000          10000   1       1       120.293316  1
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+12090601    304110000          10000   1       1       120.293316  1
+*           SourceType  Pf    LeftBoundMult   RightBoundMult  HSNum
+12090701    0           0     0.0             0.0             1
+*           WordFormat
+12090800    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+12090801    0.0105664  20.0   20.0   0.0     0.0     0.0     0.0     1.0   1
+*           WordFormat
+12090900    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+12090901    0.02        20.0   20.0   0.0     0.0     0.0     0.0     1.0   1
+*
+*
+****************************************
+*         Primary HX 10 - 1210         *
+****************************************
+*
+*           AxialHS  RadMesh  GeoType  SSFlag  LeftBound   Reflood  
+12100000    1        11       2        0       0.0058832   0
+*           MeshLocation     MeshFormat
+12100100    0                1 
+*           NumOfIntervals   RightCoordinate
+12100101    10               0.00635
+*           CompositionNum   IntervalNum
+12100201    001              10
+*           SourceValue      IntervalNum
+12100301    1.0              10
+*           InitialTemp      MeshPointNum
+12100401    923.15           11
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+12100501    218100000          10000   1       1       120.293316  1
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+12100601    304120000          10000   1       1       120.293316  1
+*           SourceType  Pf    LeftBoundMult   RightBoundMult  HSNum
+12100701    0           0     0.0             0.0             1
+*           WordFormat
+12100800    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+12100801    0.0105664  20.0   20.0   0.0     0.0     0.0     0.0     1.0   1
+*           WordFormat
+12100900    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+12100901    0.02        20.0   20.0   0.0     0.0     0.0     0.0     1.0   1
+*
+*
+****************************************
+*         Primary HX 11 - 1211         *
+****************************************
+*
+*           AxialHS  RadMesh  GeoType  SSFlag  LeftBound   Reflood  
+12110000    1        11       2        0       0.0058832   0
+*           MeshLocation     MeshFormat
+12110100    0                1 
+*           NumOfIntervals   RightCoordinate
+12110101    10               0.00635
+*           CompositionNum   IntervalNum
+12110201    001              10
+*           SourceValue      IntervalNum
+12110301    1.0              10
+*           InitialTemp      MeshPointNum
+12110401    923.15           11
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+12110501    218110000          10000   1       1       120.293316  1
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+12110601    304020000          10000   1       1       120.293316  1
+*           SourceType  Pf    LeftBoundMult   RightBoundMult  HSNum
+12110701    0           0     0.0             0.0             1
+*           WordFormat
+12110800    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+12110801    0.0105664  20.0   20.0   0.0     0.0     0.0     0.0     1.0   1
+*           WordFormat
+12110900    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+12110901    0.02        20.0   20.0   0.0     0.0     0.0     0.0     1.0   1
+*
+*
+****************************************
+*         Primary HX 12 - 1212         *
+****************************************
+*
+*           AxialHS  RadMesh  GeoType  SSFlag  LeftBound   Reflood  
+12120000    1        11       2        0       0.0058832   0
+*           MeshLocation     MeshFormat
+12120100    0                1 
+*           NumOfIntervals   RightCoordinate
+12120101    10               0.00635
+*           CompositionNum   IntervalNum
+12120201    001              10
+*           SourceValue      IntervalNum
+12120301    1.0              10
+*           InitialTemp      MeshPointNum
+12120401    923.15           11
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+12120501    218120000          10000   1       1       120.293316  1
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+12120601    304010000          10000   1       1       120.293316  1
+*           SourceType  Pf    LeftBoundMult   RightBoundMult  HSNum
+12120701    0           0     0.0             0.0             1
+*           WordFormat
+12120800    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+12120801    0.0105664  20.0   20.0   0.0     0.0     0.0     0.0     1.0   1
+*           WordFormat
+12120900    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+12120901    0.02        20.0   20.0   0.0     0.0     0.0     0.0     1.0   1
+*
+*
+****************************************
+*         Primary HX 13 - 1213         *
+****************************************
+*
+*           AxialHS  RadMesh  GeoType  SSFlag  LeftBound   Reflood  
+12130000    1        11       2        0       0.0058832   0
+*           MeshLocation     MeshFormat
+12130100    0                1 
+*           NumOfIntervals   RightCoordinate
+12130101    10               0.00635
+*           CompositionNum   IntervalNum
+12130201    001              10
+*           SourceValue      IntervalNum
+12130301    1.0              10
+*           InitialTemp      MeshPointNum
+12130401    923.15           11
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+12130501    218130000          10000   1       1       120.293316  1
+*           BoundaryVol/Table  Incr    BCType  SACode  SA/Factor  HSNum
+12130601    304130000          10000   1       1       120.293316  1
+*           SourceType  Pf    LeftBoundMult   RightBoundMult  HSNum
+12130701    0           0     0.0             0.0             1
+*           WordFormat
+12130800    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+12130801    0.0105664  20.0   20.0   0.0     0.0     0.0     0.0     1.0   1
+*           WordFormat
+12130900    0
+*           HydDiam    HLFor  HLRev  GSLFor  GSLRev  GLCFor  GLCRev  Boil  HSNum
+12130901    0.02        20.0   20.0   0.0     0.0     0.0     0.0     1.0   1
+*
+*
+*******************************************************************************
+*                                                                             *
+*                                  Kinetics                                   *
+*                                                                             *
+*******************************************************************************
+*
+* A table for the doppler feedbacks has been included, but it was not used
+* -8.5 pcm/K temp
+*           KineticsType      FeedbackType
+30000000    point             separabl
+*           Decay     Power    React    NFrac YFact  U239  Fissions Time  Unit
+30000001    gamma-ac  7.4e6    -1.1e-60 0.085 1.0    1.0   1.0      52.0  wk
+*           Type     E/Fiss
+30000002    ans79-1  200.0
+*           Table/ContVarNum
+30000011    001
+*           Power     TimeDur    Units    Frac235   Frac238    Frac239
+30000401    50.0e3    720.0      day      1.0       0.0        0.0
+*           ModeratorDensity    Reactivity
+30000501    1850.0              0.0
+30000502    1870.0              0.0
+30000503    1890.0              0.0
+*           Temperature         Reactivity
+30000601    622.0               3.924
+30000602    922.0               0.0
+30000603    1222.0              -3.924
+*           HydDiamNum  Incr    WeightFact  LiqTempCoef
+30000701    131010000   10000   1.0e-2      1.0
+30000702    132010000   10000   1.0e-2      1.0
+30000703    133010000   10000   1.0e-2      1.0
+30000704    134010000   10000   1.0e-2      1.0
+30000705    135010000   10000   1.0e-2      1.0   
+*           HSNum       Incr    WeightFact  FuelTempCoef
+30000801    1010001     1       1.0         1.0
+30000802    1020001     1       1.0         1.0
+30000803    1030001     1       1.0         1.0
+30000804    1040001     1       1.0         1.0
+30000805    1050001     1       1.0         1.0
+*
+*
+*******************************************************************************
+*                                                                             *
+*                    Heat Structure Thermal Property Data                     *
+*                                                                             *
+*******************************************************************************
+* 
+*           MaterialType
+20100100    s-steel
+*
+*
+*           MaterialType
+20100200    gap
+*
+*
+* ** Mineral Wool Insulation **
+* Thermal conductivity data obtained from Engineering Toolbox figure
+* Volumetric heat capacity obtained from ChatGPT
+*           MaterialType  ThermCondFlag  VolCpFlag
+20100300    tbl/fctn      1              1
+*           Temp    ThermCond
+20100301    300.0   0.0375
+20100302    400.0   0.0525
+20100303    500.0   0.0640
+20100304    600.0   0.0990
+20100305    700.0   0.1310
+20100306    800.0   0.1710
+20100307    860.0   0.1960
+20100308    1200.0  0.1960
+*
+*           Temp    VolCp
+20100351    300.0   1.0752e5
+20100352    999.0   1.0752e5
+*
+*
+* ** Graphite Stringers **
+* Data for moderator grade graphite
+*
+*           MaterialType  ThermCondFlag  VolCpFlag
+20100400    tbl/fctn      1              1
+*           Temp    ThermCond
+20100401    300.0   112.0
+20100402    999.0   112.0
+20100403    1200.0  112.0
+*
+*           Temp   VolCp
+20100451    300.0  3.27e6
+20100452    999.0  3.27e6
+20100453    1200.0 3.27e6
+*
+*
+* Simulated Fuel Material
+* has very high conductivity and low heat capacity
+*
+*           MaterialType  ThermCondFlag  VolCpFlag
+20100500    tbl/fctn      1              1
+*           Temp    ThermCond
+20100501    300.0   1.0e3
+20100502    999.0   1.0e3
+*
+*           Temp   VolCp
+20100551    300.0  1.0
+20100552    999.0  1.0
+*
+*
+*******************************************************************************
+*                                                                             *
+*                             General Table Data                              *
+*                                                                             *
+*******************************************************************************
+*
+*
+* Table 1: Scram feedback. Inserts -100$ when the temperature exceeds 1100K
+*           TableType  TripNum   Factors
+20200100    reac-t     401
+*           ArgValue   FunctionValue
+20200101    -1.0       0.0
+20200102     0.0       -100.0
+*
+*
+* Table 4: Time dependent power function which controls the power
+* generated in the loop heat trace
+*           TableType  TripNum   Factors
+20200200    power
+*           ArgValue   FunctionValue
+20200201    -1.0       0.0
+20200202    1000.0     0.0
+20200203    1001.0     1.0e3
+20200204    1100.0     1.0e3
+20200205    1101.0     0.0
+20200206    1.0e5      0.0
+*
+*
+*******************************************************************************
+*                                                                             *
+*                              Control Variables                              *
+*                                                                             *
+*******************************************************************************
+*
+* These variables are responsible for calculating the radial
+* power distribution in the concentric core volumes.
+*           Name      Type   ScaleFactor  InitialVal  Min
+20500100    reg1pwr   sum    1.0          0.0         0.0
+*           A0     A1     VarName    VarNum
+20500101    0.0    0.2    rktpow     0
+*
+20500200    reg2pwr   sum    1.0          0.0         0.0
+20500201    0.0    0.2    rktpow     0
+*
+20500300    reg3pwr   sum    1.0          0.0         0.0
+20500301    0.0    0.2    rktpow     0
+*
+20500400    reg4pwr   sum    1.0          0.0         0.0
+20500401    0.0    0.2    rktpow     0
+*
+20500500    reg5pwr   sum    1.0          0.0         0.0
+20500501    0.0    0.2    rktpow     0
+*
+*
+*******************************************************************************
+*                                                                             *
+*                               Precursor Data                                *
+*                                                                             *
+*******************************************************************************
+*
+*           Number of Precursors
+22000000    31
+*           Name     Phase  lambda      Qdecay    A
+22000100    U238F1   0      3.2881      0.0       50.0
+22000200    U238F2   0      9.3805e-1   0.0       50.0
+22000300    U238F3   0      3.4073e-1   0.0       50.0
+22000400    U238F4   0      1.1118e-1   0.0       50.0
+22000500    U238F5   0      3.6143e-2   0.0       50.0
+22000600    U238F6   0      1.3272e-2   0.0       50.0
+22000700    U238F7   0      5.0133e-3   0.0       50.0
+22000800    U238F8   0      1.3655e-3   0.0       50.0
+22000900    U238F9   0      5.5158e-4   0.0       50.0
+22001000    U238F10  0      1.7873e-4   0.0       50.0
+22001100    U238F11  0      4.9032e-5   0.0       50.0
+22001200    U238F12  0      1.7058e-5   0.0       50.0
+22001300    U238F13  0      7.0465e-6   0.0       50.0
+22001400    U238F14  0      2.3190e-6   0.0       50.0
+22001500    U238F15  0      6.4480e-7   0.0       50.0
+22001600    U238F16  0      1.2649e-7   0.0       50.0
+22001700    U238F17  0      2.5548e-8   0.0       50.0
+22001800    U238F18  0      8.4782e-9   0.0       50.0
+22001900    U238F19  0      7.5130e-10  0.0       50.0
+22002000    U238F20  0      2.4188e-10  0.0       50.0
+22002100    U238F21  0      2.2739e-13  0.0       50.0
+22002200    U238F22  0      9.0536e-14  0.0       50.0
+22002300    U238F23  0      5.6098e-15  0.0       50.0
+22002400    FML1     0      1.2467e-2   0.0       50.0
+22002500    FML2     0      2.8292e-2   0.0       50.0
+22002600    FML3     0      4.2524e-2   0.0       50.0
+22002700    FML4     0      1.3304e-1   0.0       50.0
+22002800    FML5     0      2.9247e-1   0.0       50.0
+22002900    FML6     0      6.6649e-1   0.0       50.0
+22003000    FML7     0      1.6348      0.0       50.0
+22003100    FML8     0      3.5546      0.0       50.0
+*
+*
+***********************
+*     End of Deck     *
+***********************
+.

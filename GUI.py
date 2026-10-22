@@ -20,6 +20,7 @@ class FileSelectionDialog:
 
         self.selected_config = None
         self.config_data = None
+        self.user_note = None
 
         # Ensure directories exist to prevent runtime FileNotFoundError
         self.config_dir.mkdir(parents=True, exist_ok=True)
@@ -48,9 +49,17 @@ class FileSelectionDialog:
             row=1, column=0, columnspan=2, padx=10, pady=5, sticky="nsew"
         )
 
+        # User notes text input
+        ttk.Label(self.root, text="Note:").grid(
+            row=2, column=0, padx=10, pady=5, sticky="w"
+        )
+        self.note_var = tk.StringVar()
+        note = ttk.Entry(self.root, width=50, textvariable=self.note_var)
+        note.grid(row=3, column=0, columnspan=2, padx=10, pady=5, sticky="ew")
+
         # Action Buttons
         button_frame = ttk.Frame(self.root)
-        button_frame.grid(row=2, column=0, columnspan=2, pady=15)
+        button_frame.grid(row=4, column=0, columnspan=2, pady=15)
 
         ttk.Button(button_frame, text="Confirm", command=self._on_confirm).pack(
             side=tk.LEFT, padx=5
@@ -132,6 +141,8 @@ class FileSelectionDialog:
             )
             return
 
+        self.user_note = self.note_var.get()  # Capture user notes
+
         self.root.destroy()
 
 
@@ -152,4 +163,4 @@ def get_target_files() -> tuple:
         # print(tk.TclError)
         pass
 
-    return dialog.selected_config, dialog.template_filename, dialog.excel_filepath, dialog.sheet_name
+    return dialog.selected_config, dialog.template_filename, dialog.excel_filepath, dialog.sheet_name, dialog.user_note

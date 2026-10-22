@@ -4,6 +4,7 @@ import time
 import jinja2
 from pathlib import Path
 import pandas as pd
+from datetime import datetime
 
 from GUI import get_target_files
 
@@ -20,7 +21,7 @@ def parse_parameters(excel_file: str, sheet_name: int | str = 0) -> dict:
     Returns:
         dict: Nested dictionary with codes as keys and their parameters as sub-dictionaries.
     """
-    
+
     df = pd.read_excel(excel_file, sheet_name=sheet_name)
 
     param_dict = {}
@@ -38,13 +39,14 @@ def parse_parameters(excel_file: str, sheet_name: int | str = 0) -> dict:
         
     return param_dict
 
-def main(CONFIG_PATH, TEMPLATE_PATH, EXCEL_PATH, sheet_name):
+def main(CONFIG_PATH, TEMPLATE_PATH, EXCEL_PATH, sheet_name, note):
     """Main function to generate RELAP input file based on provided configuration, template, and Excel data.
     Args:
         CONFIG_PATH (Path): Path to the selected configuration file.
         TEMPLATE_PATH (Path): Path to the selected Jinja template file.
         EXCEL_PATH (Path): Path to the selected Excel file containing parameters.
         sheet_name (int | str): Sheet name or index in the Excel file to read parameters from.
+        note (str): User-provided note for the run.
     
     Returns:
         None
@@ -56,14 +58,18 @@ def main(CONFIG_PATH, TEMPLATE_PATH, EXCEL_PATH, sheet_name):
     print(f"Selected template file: {TEMPLATE_PATH}")
     print(f"Selected Excel file: {EXCEL_PATH}")
     print(f"Selected sheet name: {sheet_name}")
+    print(f"User note: {note}")
     print("=================================================")
 
     # Create a metadata dictionary to store the paths and sheet name for reference
+    current_time = datetime.now()
     meta_data = {
         "config_file": str(CONFIG_PATH),
         "template_file": str(TEMPLATE_PATH),
         "excel_file": str(EXCEL_PATH),
         "sheet_name": sheet_name,
+        "timestamp": current_time.strftime("%Y-%m-%d %H:%M:%S"),
+        "note": note
     }
 
     # Set up the Jinja2 environment and load the template
@@ -77,11 +83,16 @@ def main(CONFIG_PATH, TEMPLATE_PATH, EXCEL_PATH, sheet_name):
 
     # Parse parameters from the Excel file and render the template
     param_dict = parse_parameters(EXCEL_PATH, sheet_name)
+    param_dict["meta_data"] = meta_data  # Add metadata to the parameter dictionary
     print(param_dict)
     rendered_content = template.render(param_dict)
 
-    # Generate a unique output filename based on the template name and current timestamp
-    output_filename = f"{TEMPLATE_PATH.stem}_{time.time()}.i"
+    # Generate a unique output filename based on the note or template name and current timestamp
+    if note:
+        sanitized_note = "".join(c if c.isalnum() or c in (' ', '_') else '_' for c in note).strip()
+        output_filename = f"{sanitized_note}_{current_time.strftime("%Y-%m-%d_%H_%M_%S")}.i"
+    else:
+        output_filename = f"{TEMPLATE_PATH.stem}_{current_time.strftime("%Y-%m-%d_%H_%M_%S")}.i"
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     OUTPUT_PATH = OUTPUT_DIR / output_filename
     OUTPUT_PATH.write_text(rendered_content)
@@ -89,7 +100,7 @@ def main(CONFIG_PATH, TEMPLATE_PATH, EXCEL_PATH, sheet_name):
 
 if __name__ == "__main__":
     # get file paths and sheet name from GUI
-    config_file, template_file, excel_file, sheet_name = get_target_files()
+    config_file, template_file, excel_file, sheet_name, note = get_target_files()
     CONFIG_PATH = CONFIG_DIR / config_file if config_file else None
     TEMPLATE_PATH = TEMPLATE_DIR / template_file if template_file else None
     EXCEL_PATH = excel_file if excel_file else None
@@ -100,7 +111,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     # Run the main function with the provided paths and sheet name
-    main(CONFIG_PATH, TEMPLATE_PATH, EXCEL_PATH, sheet_name)
+    main(CONFIG_PATH, TEMPLATE_PATH, EXCEL_PATH, sheet_name, note)
 
     # Flush the output to ensure all print statements are displayed before the program exits
     sys.stdout.flush()

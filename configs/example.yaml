@@ -5,5 +5,5 @@
 # It specifies the paths to the Excel file and the template file, 
 # as well as the specific sheet name to read data from.
 template_filename: "test.j2" # path relative to templates folder
-excel_filepath: "/home/gamer/Documents/Financial_and_Administrative/Employment/JobSpecific/BYUTEMPLab/RELAP_automation/Book1.xlsx"
+excel_filepath: "/home/gamer/Documents/Financial_and_Administrative/Employment/JobSpecific/BYUTEMPLab/RELAP_automation/example.xlsx"
 sheet_name: "DYNAMIC_VARS" # specific sheet of workbook to read data from

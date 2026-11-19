@@ -66,7 +66,7 @@ def get_jinja(header_str, val_str, num_str):
 
         elif "." in val:
             precision = len(val.split(".")[1]) if "." in val else 0
-            format_str = f"{{{{ \"%-{width}.{precision}f\" | format(c{num_str}.{param})}}}}"
+            format_str = f"{{{{ \"%-{width}.{precision}f\" | format(c{num_str}.{param}) }}}}"
 
         else:
             try:
@@ -74,7 +74,7 @@ def get_jinja(header_str, val_str, num_str):
                 val = int(val)
                 format_str = f"{{{{ \"%-{width}s\" | format( \"%0{num_width}d\" | format(c{num_str}.{param}) ) }}}}"
             except ValueError:
-                format_str = f"{{{{ \"%-{width}s\" | format(c{num_str}.{param} ) }}}}"
+                format_str = f"{{{{ \"%-{width}s\" | format(c{num_str}.{param}) }}}}"
 
         print("\nJinja format string:")
         final_str += format_str

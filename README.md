@@ -33,3 +33,8 @@ Only the variables `Pres`, `Temp`, and `Qual` are desired to be relplaced.
 ```
 7. The terminal then prompts the user whether they would like to convert another line. If yes, the process repeats, but the user may change the object code or keep the current one. 
 
+For some intuition on the jinja code, the format strings (that start with "%) are read in the following way:
+- a number following "-" specifies the width of the replacement string
+- a number following "." specifies the number of decimal places
+- a number following "0" specifies the number of leading 0's
+- the final letter specifes the type ("s" for string, "f" for float, "e" for scientific, "d" for integer, etc.)

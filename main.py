@@ -107,7 +107,6 @@ def main(CONFIG_PATH, TEMPLATE_PATH, EXCEL_PATH, sheet_name, note):
     # Parse parameters from the Excel file and render the template
     param_dict = parse_parameters(EXCEL_PATH, sheet_name)
     param_dict["meta_data"] = meta_data  # Add metadata to the parameter dictionary
-    print(param_dict)
     rendered_content = template.render(param_dict)
 
     # Generate a unique output filename based on the note or template name and current timestamp
@@ -119,6 +118,7 @@ def main(CONFIG_PATH, TEMPLATE_PATH, EXCEL_PATH, sheet_name, note):
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     OUTPUT_PATH = OUTPUT_DIR / output_filename
     OUTPUT_PATH.write_text(rendered_content)
+    print(f"Generated RELAP input file: {OUTPUT_PATH}")
 
 
 if __name__ == "__main__":

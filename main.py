@@ -2,6 +2,7 @@ import sys
 import time
 
 import jinja2
+import re
 from pathlib import Path
 import pandas as pd
 from datetime import datetime
@@ -79,6 +80,28 @@ def main(CONFIG_PATH, TEMPLATE_PATH, EXCEL_PATH, sheet_name, note):
             trim_blocks=True,
             lstrip_blocks=True,
         )
+
+    def relap_sci(value: float, width: int, precision: int, exp_char: str = "e") -> str:
+        formatted = f"{float(value):.{precision}{exp_char}}"
+        # Strip '+' and leading zeros in exponent (e.g., e+05 -> e5, e-05 -> e-5)
+        formatted = re.sub(r"([eE])\+?(-?)0*(\d+)", r"\1\2\3", formatted)
+        return f"{formatted:<{width}}"
+    import textwrap
+
+    def relap_comment_box(text: str, total_width: int = 79) -> str:
+        # 2 chars for "* " + 2 chars for " *" = 4 border chars
+        inner_width = total_width - 4
+        wrapped = textwrap.wrap(
+            str(text),
+            width=inner_width,
+            subsequent_indent="  ",
+            break_long_words=True,
+            break_on_hyphens=False
+        ) or [""]
+        return "\n".join(f"* {line:<{inner_width}} *" for line in wrapped)
+    template_env.filters["comment_box"] = relap_comment_box
+    template_env.filters["relap_sci"] = relap_sci
+
     template = template_env.get_template(TEMPLATE_PATH.name)
 
     # Parse parameters from the Excel file and render the template

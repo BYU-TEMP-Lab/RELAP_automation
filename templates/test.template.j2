@@ -3,19 +3,18 @@
 *******************************************************************************
 * MSRE Benchmarking Model                                                     *
 * Author: Gregory Arps                                                        *
-* Date Created: 9/19/26                                                        *
+* Date Created: 9/19/26                                                       *
 * Version: B                                                                  *
 *                                                                             *
 *******************************************************************************
 *                 !!!!!!!!THIS IS AN AUTOMATED INPUT FILE!!!!!!!              *
 * METADATA:                                                                   *
-*   Configuration File: {{ meta_data.config_file }}
-*   Template File: {{ meta_data.template_file }}
-*   Excel File: {{ meta_data.excel_file }}
-*   Sheet Name: {{ meta_data.sheet_name }}
-*   Created: {{ meta_data.timestamp }} UTC
-*   Note: {{ meta_data.note }}
-*                                                                             *
+{{ ("Configuration File: " ~ meta_data.config_file) | comment_box }}
+{{ ("Template File: " ~ meta_data.template_file) | comment_box }}
+{{ ("Excel File: " ~ meta_data.excel_file) | comment_box }}
+{{ ("Sheet Name: " ~ meta_data.sheet_name) | comment_box }}
+{{ ("Created: " ~ meta_data.timestamp ~ " UTC") | comment_box }}
+{{ ("Note: " ~ meta_data.note) | comment_box }}
 *                                                                             *
 *******************************************************************************
 *
@@ -78,13 +77,13 @@
 *          Name      Type
 1020000    corepln1  snglvol
 *          Area        Length       Volume
-1020101    {{ "%-12.3f" | format(c102.Area)}}{{ "%-13.3f" | format(c102.Length)}}{{ "%-12.1f" | format(c102.Volume)}}
+1020101    {{"%-12.3f" | format(c102.Area)}}{{"%-13.3f" | format(c102.Length)}}0.0
 *          AzimAng   InclAng   ElevationChange
-1020102    0.0       0.0       0.0
+1020102    0.0       {{"%-10.1f" | format(c102.InclAng)}}{{"%-3.1f" | format(c102.ElevationChange)}}
 *          Roughness  HydraulicDiam  Tlpvbfe
-1020103    0.0        0.0            0000000
+1020103    {{"%-11.1f" | format(c102.Roughness)}}{{"%-15.1f" | format(c102.HydraulicDiam)}}0000000
 *          Ebt       Pres       Temp     Qual
-1020200    003       2.0e5      923.15   0.0
+1020200    003       {{ c102.Pres | relap_sci(11, 1, 'e') }}{{"%-9.2f" | format(c102.Temp)}}{{"%-3.1f" | format(c102.Qual)}}
 *
 *
 ****************************************
@@ -93,13 +92,13 @@
 *          Name      Type
 1720000    corepln2  snglvol
 *          Area        Length       Volume
-1720101    1.546       0.2077       0.0
+1720101    {{"%-12.3f" | format(c172.Area)}}{{"%-13.4f" | format(c172.Length)}}0.0
 *          AzimAng   InclAng   ElevationChange
-1720102    0.0       90.0      0.2077
+1720102    0.0       {{"%-10.1f" | format(c172.InclAng)}}{{"%-6.4f" | format(c172.ElevationChange)}}
 *          Roughness  HydraulicDiam  Tlpvbfe
-1720103    0.0        0.0            0000000
+1720103    {{"%-11.1f" | format(c172.Roughness)}}{{"%-15.1f" | format(c172.HydraulicDiam)}}0000000
 *          Ebt       Pres       Temp     Qual
-1720200    003       1.74e5     973.15   0.0
+1720200    003       {{ c172.Pres | relap_sci(11, 2, 'e') }}{{"%-9.2f" | format(c172.Temp)}}{{"%-3.1f" | format(c172.Qual)}}
 *
 *
 ****************************************
@@ -112,36 +111,36 @@
 *          NumOfVolumes
 1310001    20
 *          Area                      VolNum
-1310101    1.31111e-2                20
+1310101    {{ c131.Area | relap_sci(26, 5, 'e') }}{{"%-2s" | format("%02d" | format(c131.VolNum))}}
 *          JunArea                   JunNum
-1310201    1.31111e-2                19
+1310201    1.31111e-2                {{"%-2s" | format("%02d" | format(c131.JunNum))}}
 *          Length                    VolNum
-1310301    0.07875                   20
+1310301    {{"%-26.5f" | format(c131.Length)}}{{"%-2s" | format("%02d" | format(c131.VolNum))}}
 *          Volume                    VolNum
-1310401    0.0                       20
+1310401    0.0                       {{"%-2s" | format("%02d" | format(c131.VolNum))}}
 *          AzimAng                   VolNum
-1310501    0.0                       20
+1310501    0.0                       {{"%-2s" | format("%02d" | format(c131.VolNum))}}
 *          InclAng                   VolNum
-1310601    90.0                      20
+1310601    {{"%-26.1f" | format(c131.InclAng)}}{{"%-2s" | format("%02d" | format(c131.VolNum))}}
 *          ElevationChange           VolNum
-1310701    0.07875                   20
+1310701    {{"%-26.5f" | format(c131.ElevationChange)}}{{"%-2s" | format("%02d" | format(c131.VolNum))}}
 *          Roughness  HydraulicDiam  VolNum
-1310801    5.0e-6     0.01585        20
+1310801    {{ c131.Roughness | relap_sci(11, 1, 'e') }}{{"%-15.5f" | format(c131.HydraulicDiam)}}{{"%-2s" | format("%02d" | format(c131.VolNum))}}
 *          Af         Ar             JunNum
-1310901    0.0        0.0            19
+1310901    0.0        0.0            {{"%-2s" | format("%02d" | format(c131.JunNum))}}
 *          tlpvbfe                   VolNum
-1311001    0000000                   20
+1311001    0000000                   {{"%-2s" | format("%02d" | format(c131.VolNum))}}
 *          efvcahs                   JunNum
-1311101    0000000                   19
+1311101    0000000                   {{"%-2s" | format("%02d" | format(c131.JunNum))}}
 *          Ebt   Initial-Conditions             VolNum
 1311201    003   2.0e5  923.15  0.0   0.0  0.0  10
 1311202    003   1.9e5  923.15  0.0   0.0  0.0  20
 *          Vel/Mfr
 1311300    1
 *          Liquid  Vapor  Interface  JunNum
-1311301    0.0     0.0    0.0        19
+1311301    0.0     0.0    0.0        {{"%-2s" | format("%02d" | format(c131.JunNum))}}
 *          JunHydDia  Flooding  c     Slope  JunNum
-1311401    0.0        0.0       1.0   1.0    19
+1311401    0.0        0.0       1.0   1.0    {{"%-2s" | format("%02d" | format(c131.JunNum))}}
 *
 *
 ****************************************

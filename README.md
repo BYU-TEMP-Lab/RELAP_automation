@@ -38,3 +38,4 @@ For some intuition on the jinja code, the format strings (that start with "%) ar
 - a number following "." specifies the number of decimal places
 - a number following "0" specifies the number of leading 0's
 - the final letter specifes the type ("s" for string, "f" for float, "e" for scientific, "d" for integer, etc.)
+- `relap_sci` and `comment_box` are custom formatters defined in `RELAP_generate.py`
